@@ -391,8 +391,7 @@ export default function HomePage() {
               <div className="space-y-5">
                 <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900">Komitmen Kualitas</h3>
                 <p className="text-gray-600 leading-relaxed text-lg">
-                  Kami berkomitmen menggunakan bahan-bahan premium, mulai dari matcha grade A yang diimpor langsung dari
-                  Jepang, hingga coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep
+                  Kami berkomitmen menggunakan bahan-bahan premium, mulai dari pilihan matcha yang berkualitas, hingga coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep
                   autentik dan sentuhan modern.
                 </p>
               </div>
