@@ -24,7 +24,7 @@ export default function Navigation() {
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/menus", label: "Menu" },
+    { href: "/menu", label: "Menu" },
     { href: "/contact", label: "Kontak" },
   ]
 

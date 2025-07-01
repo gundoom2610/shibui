@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Coffee, Wifi, Camera, Heart, ArrowRight, Star, MapPin, Clock } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
 // Image paths constants for easy management
@@ -33,9 +33,70 @@ const IMAGES = {
   },
 }
 
+// Hero Menu items - different from signature drinks
+const heroMenu = [
+  {
+    name: "Matcha Latte Supreme",
+    image: IMAGES.menu.matchaLatte,
+    rating: 4.9,
+    popular: true,
+  },
+  {
+    name: "Hojicha Cream Delight",
+    image: IMAGES.menu.hojichaCreem,
+    rating: 4.8,
+    popular: false,
+  },
+  {
+    name: "Matcha Tiramisu",
+    image: IMAGES.menu.matchaCheesecake,
+    rating: 4.9,
+    popular: true,
+  },
+]
+
+// Custom hook for scroll-triggered animations
+function useScrollAnimation() {
+  const [visibleElements, setVisibleElements] = useState(new Set())
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleElements((prev) => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "50px 0px -50px 0px",
+      },
+    )
+
+    // Observe all elements with data-animate attribute
+    const elementsToObserve = document.querySelectorAll("[data-animate]")
+    elementsToObserve.forEach((el) => {
+      if (observerRef.current) {
+        observerRef.current.observe(el)
+      }
+    })
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
+  }, [])
+
+  return visibleElements
+}
+
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const visibleElements = useScrollAnimation()
 
   useEffect(() => {
     setIsVisible(true)
@@ -139,9 +200,9 @@ export default function HomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-gradient-to-b from-green-50 via-white to-green-50 min-h-screen">
       {/* Hero Section with Parallax */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-green-50 to-white">
         {/* Hero Background Image with Parallax */}
         <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
           <div className="relative w-full h-full">
@@ -152,25 +213,10 @@ export default function HomePage() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-50/80 via-green-50/60 to-emerald-50/70"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-green-50/50 to-emerald-50/60"></div>
           </div>
           {/* White fade at bottom for seamless transition */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
-        </div>
-
-        {/* Modern Background Elements */}
-        <div className="absolute inset-0 z-10">
-          {/* Animated gradient orbs */}
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-green-200/30 to-emerald-300/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-emerald-200/20 to-green-300/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage: "radial-gradient(circle at 1px 1px, #1b3b26 1px, transparent 0)",
-              backgroundSize: "24px 24px",
-            }}
-          ></div>
         </div>
 
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,7 +228,7 @@ export default function HomePage() {
               }`}
             >
               {/* Badge */}
-              <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-green-100/50">
+              <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-green-100">
                 <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-sm font-semibold text-gray-700 tracking-wide">
                   Matcha Bar & Cafe Terbaik di Cirebon
@@ -219,7 +265,7 @@ export default function HomePage() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  onClick={() => (window.location.href = "/menus")}
+                  onClick={() => (window.location.href = "/menu")}
                   className="group bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold transform hover:scale-105"
                 >
                   <span>Lihat Menu</span>
@@ -242,8 +288,8 @@ export default function HomePage() {
               <div className="relative h-full w-full max-w-sm sm:max-w-md mx-auto lg:max-w-none">
                 <div className="absolute inset-0 bg-gradient-to-t from-green-600/20 to-transparent rounded-3xl z-10"></div>
                 <Image
-                  src={IMAGES.hero.mainCafe || "/placeholder.svg"}
-                  alt="Shibui Cafe Interior"
+                  src={IMAGES.menu.matchaLatte || "/placeholder.svg"}
+                  alt="Shibui Cafe Hero"
                   fill
                   className="object-cover rounded-3xl shadow-2xl"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -252,10 +298,10 @@ export default function HomePage() {
 
               {/* Floating Menu Cards - Mobile Optimized */}
               <div className="absolute inset-0 pointer-events-none z-20">
-                {featuredMenuItems.map((item, index) => (
+                {heroMenu.map((item, index) => (
                   <Card
                     key={index}
-                    className={`absolute bg-white/95 backdrop-blur-sm shadow-xl rounded-xl lg:rounded-2xl border-0 transform hover:scale-105 transition-all duration-500 pointer-events-auto ${
+                    className={`absolute bg-white/95 backdrop-blur-sm shadow-xl rounded-xl lg:rounded-2xl border border-green-100/50 transform hover:scale-105 transition-all duration-500 pointer-events-auto ${
                       index === 0
                         ? "top-4 sm:top-8 -left-2 sm:-left-4 lg:-left-12 w-48 sm:w-56 lg:w-64"
                         : index === 1
@@ -302,11 +348,15 @@ export default function HomePage() {
       </section>
 
       {/* Signature Drinks Section */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-gray-50/30 to-green-50/20">
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white" data-animate id="signature-drinks">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16 sm:mb-20">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-3 rounded-full mb-6 border border-green-100">
+          <div
+            className={`text-center mb-16 sm:mb-20 transform transition-all duration-1000 ${
+              visibleElements.has("signature-drinks") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
+          >
+            <div className="inline-flex items-center gap-3 bg-green-50 px-6 py-3 rounded-full mb-6 border border-green-100">
               <span className="text-2xl">✨</span>
               <span className="text-green-700 font-bold text-base">Signature Collection</span>
             </div>
@@ -323,8 +373,13 @@ export default function HomePage() {
             {signatureDrinks.map((drink, index) => (
               <Card
                 key={index}
-                className="group hover:shadow-xl transition-all duration-500 border border-gray-100 rounded-2xl overflow-hidden bg-white transform hover:-translate-y-1 hover:border-green-200"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`group hover:shadow-xl transition-all duration-500 border border-green-100 rounded-2xl overflow-hidden bg-white transform hover:-translate-y-2 hover:border-green-300 shadow-lg ${
+                  visibleElements.has("signature-drinks") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                }`}
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  transitionDelay: visibleElements.has("signature-drinks") ? `${index * 100}ms` : "0ms",
+                }}
               >
                 <CardContent className="p-0">
                   <div className="relative aspect-square overflow-hidden">
@@ -350,26 +405,29 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        {/* Overlay Glow */}
-        <div className="relative -mt-20 h-40 bg-gradient-to-b from-transparent via-green-100/30 to-green-50/50 blur-xl"></div>
       </section>
 
-      {/* Our Story Section */}
+      {/* Our Story Section - Enhanced with Soft Green */}
       <section
         id="cerita-shibui"
-        className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-green-50/30"
+        className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-green-50"
+        data-animate
       >
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16 sm:mb-20">
-            <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full mb-6 shadow-lg border border-green-100">
+          <div
+            className={`text-center mb-16 sm:mb-20 transform transition-all duration-1000 ${
+              visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
+          >
+            <div className="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full mb-6 shadow-lg border border-green-200">
               <span className="text-2xl">🌱</span>
               <span className="text-green-700 font-bold text-base">Tentang Kami</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-gray-900 mb-6 tracking-tight">
               Cerita <span className="italic text-green-600">SHIBUI</span>
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg sm:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium">
               Kami menyediakan berbagai minuman matcha berkualitas premium, coffee specialty, snacks ringan yang
               menggugah selera, hingga makanan berat yang mengenyangkan. Setiap sajian dibuat dengan penuh cinta dan
               dedikasi untuk memberikan pengalaman kuliner terbaik bagi setiap tamu yang berkunjung ke SHIBUI.
@@ -377,12 +435,16 @@ export default function HomePage() {
           </div>
 
           {/* Story Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center mb-16 sm:mb-20">
+          <div
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center mb-16 sm:mb-20 transform transition-all duration-1000 delay-300 ${
+              visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
+          >
             {/* Left - Story Text */}
             <div className="space-y-8">
               <div className="space-y-5">
                 <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900">Perjalanan SHIBUI</h3>
-                <p className="text-gray-600 leading-relaxed text-lg">
+                <p className="text-gray-700 leading-relaxed text-lg">
                   Dimulai dari kecintaan terhadap budaya Jepang dan passion akan kualitas matcha terbaik, SHIBUI hadir
                   untuk membawa pengalaman authentic Japanese cafe di tengah kota Cirebon. Setiap detail di SHIBUI
                   dirancang untuk menciptakan suasana yang hangat dan menenangkan.
@@ -390,16 +452,17 @@ export default function HomePage() {
               </div>
               <div className="space-y-5">
                 <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900">Komitmen Kualitas</h3>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                  Kami berkomitmen menggunakan bahan-bahan premium, mulai dari pilihan matcha yang berkualitas, hingga coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep
-                  autentik dan sentuhan modern.
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  Kami berkomitmen menggunakan bahan-bahan premium, mulai dari pilihan matcha yang berkualitas, hingga
+                  coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep autentik dan
+                  sentuhan modern.
                 </p>
               </div>
             </div>
 
             {/* Right - Cafe Photo */}
             <div className="relative">
-              <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden">
+              <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-white border border-green-100">
                 <Image
                   src={IMAGES.story.cafeInterior || "/placeholder.svg"}
                   alt="Shibui Cafe Interior Story"
@@ -416,8 +479,12 @@ export default function HomePage() {
             {whyShibui.map((item, index) => (
               <Card
                 key={index}
-                className="group text-center p-8 border-0 shadow-lg rounded-3xl bg-white hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`group text-center p-8 border border-green-100 shadow-lg rounded-3xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden ${
+                  visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                }`}
+                style={{
+                  transitionDelay: visibleElements.has("cerita-shibui") ? `${(index + 2) * 100}ms` : "0ms",
+                }}
               >
                 {/* Hover gradient background */}
                 <div
@@ -441,18 +508,23 @@ export default function HomePage() {
           </div>
 
           {/* Cafe Spaces Gallery */}
-          <div className="space-y-12">
+          <div
+            className={`space-y-12 transform transition-all duration-1000 delay-500 ${
+              visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
+          >
             <div className="text-center">
               <h3 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">Ruang yang Kami Ciptakan</h3>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto font-medium">
+              <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto font-medium">
                 Setiap sudut di SHIBUI memiliki cerita dan fungsinya sendiri, dirancang khusus untuk kenyamanan Anda
               </p>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {cafeSpaces.map((space, index) => (
                 <Card
                   key={index}
-                  className="group overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border-0"
+                  className="group overflow-hidden rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 border border-green-100 bg-white"
                 >
                   <CardContent className="p-0">
                     <div className="relative aspect-[3/2] overflow-hidden">
@@ -475,24 +547,23 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        {/* Overlay Glow */}
-        <div className="relative -mt-20 h-40 bg-gradient-to-b from-transparent via-green-100/30 to-green-50/50 blur-xl"></div>
       </section>
 
       {/* Redesigned "Shibui Tempat Nyaman" Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-green-50/20 via-gray-50/20 to-white">
+      <section
+        className="relative px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-green-50 to-white"
+        data-animate
+        id="tempat-nyaman"
+      >
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-slate-800 to-green-900 rounded-t-[3rem] sm:rounded-t-[4rem] lg:rounded-t-[5rem] rounded-b-[3rem] sm:rounded-b-[4rem] lg:rounded-b-[5rem] overflow-hidden">
+          <div className="bg-gradient-to-br from-slate-800 to-green-900 rounded-3xl overflow-hidden">
             <div className="py-20 sm:py-24 lg:py-32 px-6 sm:px-8 lg:px-12">
-              {/* Animated Background Effects */}
-              <div className="absolute inset-0">
-                <div className="absolute top-20 left-20 w-48 sm:w-64 h-48 sm:h-64 bg-green-500/20 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-32 right-32 w-60 sm:w-80 h-60 sm:h-80 bg-emerald-500/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-green-400/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-              </div>
-
               <div className="max-w-7xl mx-auto relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+                <div
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center transform transition-all duration-1000 ${
+                    visibleElements.has("tempat-nyaman") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  }`}
+                >
                   {/* Mobile: Image first, Desktop: Content first */}
                   <div className="order-2 lg:order-1 space-y-6 sm:space-y-8">
                     <div className="space-y-4 sm:space-y-6">
@@ -514,7 +585,7 @@ export default function HomePage() {
 
                     {/* Feature highlights in 2x2 grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                      <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
                             <h4 className="text-white font-semibold text-base mb-1">Menu Lengkap</h4>
@@ -524,8 +595,7 @@ export default function HomePage() {
                           </div>
                         </CardContent>
                       </Card>
-
-                      <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                      <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
                             <h4 className="text-white font-semibold text-base mb-1">Reading Corner</h4>
@@ -535,8 +605,7 @@ export default function HomePage() {
                           </div>
                         </CardContent>
                       </Card>
-
-                      <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                      <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
                             <h4 className="text-white font-semibold text-base mb-1">Natural Lighting</h4>
@@ -546,8 +615,7 @@ export default function HomePage() {
                           </div>
                         </CardContent>
                       </Card>
-
-                      <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                      <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
                             <h4 className="text-white font-semibold text-base mb-1">Socket Charger</h4>
@@ -562,8 +630,7 @@ export default function HomePage() {
 
                   {/* Mobile: Image on top, Desktop: Image on right */}
                   <div className="order-1 lg:order-2 relative mt-8 lg:mt-0">
-                    <div className="aspect-[4/3] bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-3xl border border-white/20 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/5 rounded-3xl"></div>
+                    <div className="aspect-[4/3] bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 relative overflow-hidden">
                       <Image
                         src={IMAGES.story.atmosphere || "/placeholder.svg"}
                         alt="Shibui Cafe Atmosphere"
@@ -580,15 +647,19 @@ export default function HomePage() {
         </div>
 
         {/* CTA Section */}
-        <div className="max-w-4xl mx-auto mt-16 sm:mt-20 relative z-20 mb-12 sm:mb-16">
-          <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-3xl shadow-2xl p-8 sm:p-12 mx-4">
+        <div
+          className={`max-w-7xl mx-auto mt-16 sm:mt-20 relative z-20 mb-12 sm:mb-16 transform transition-all duration-1000 delay-300 ${
+            visibleElements.has("tempat-nyaman") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl shadow-xl p-8 sm:p-12 mx-4 border border-green-200">
             {/* Mobile Layout */}
             <div className="block md:hidden">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   {/* Small profile-like image for mobile */}
                   <div className="relative w-16 h-16 flex-shrink-0">
-                    <div className="absolute inset-0 bg-white/20 rounded-2xl backdrop-blur-sm"></div>
+                    <div className="absolute inset-0 bg-white/20 rounded-2xl"></div>
                     <Image
                       src={IMAGES.cta.featuredDrink || "/placeholder.svg"}
                       alt="Featured Drink"
@@ -598,10 +669,10 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-semibold text-white leading-tight">Lihat Menu Lengkap Kami</h3>
+                    <h3 className="text-2xl font-semibold text-gray-800 leading-tight">Lihat Menu Lengkap Kami</h3>
                   </div>
                 </div>
-                <p className="text-white/90 text-lg leading-relaxed">
+                <p className="text-gray-700 text-lg leading-relaxed">
                   Jelajahi koleksi lengkap minuman dan makanan premium kami yang dibuat dengan penuh cinta
                 </p>
                 <Button
@@ -619,15 +690,15 @@ export default function HomePage() {
               {/* Left - CTA Content */}
               <div className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white leading-tight">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 leading-tight">
                     Lihat Menu Lengkap Kami
                   </h3>
-                  <p className="text-white/90 text-lg leading-relaxed">
+                  <p className="text-gray-700 text-lg leading-relaxed">
                     Jelajahi koleksi lengkap minuman dan makanan premium kami yang dibuat dengan penuh cinta
                   </p>
                 </div>
                 <Button
-                  onClick={() => (window.location.href = "/menus")}
+                  onClick={() => (window.location.href = "/menu")}
                   className="group bg-white text-green-600 hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105"
                 >
                   <span>Lihat Menu Lengkap</span>
@@ -638,7 +709,7 @@ export default function HomePage() {
               {/* Right - Featured Drink Image */}
               <div className="flex justify-center">
                 <div className="relative w-48 h-48 sm:w-56 sm:h-56">
-                  <div className="absolute inset-0 bg-white/20 rounded-3xl backdrop-blur-sm"></div>
+                  <div className="absolute inset-0 bg-white/20 rounded-3xl"></div>
                   <Image
                     src={IMAGES.cta.featuredDrink || "/placeholder.svg"}
                     alt="Featured Drink"
