@@ -95,7 +95,9 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-green-300/30">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-green-100 text-sm">© 2025 SHIBUI Matcha Bar & Cafe. Semua hak dilindungi.</p>
+            <p className="text-green-100 text-sm">
+             © {new Date().getFullYear()} SHIBUI Matcha Bar & Cafe.
+            </p>
             <div className="flex space-x-6">
             </div>
           </div>

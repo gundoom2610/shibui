@@ -1,5 +1,4 @@
 "use client"
-
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -66,11 +65,9 @@ export default function SleekMenuPage(): React.JSX.Element {
 
   useEffect(() => {
     if (!isAutoPlay || isHovered || userHasInteracted) return
-
     const interval = setInterval(() => {
       setCurrentMenuPage((prev) => (prev + 1) % MENU_IMAGES.length)
     }, 7000)
-
     return () => clearInterval(interval)
   }, [isAutoPlay, isHovered, userHasInteracted])
 
@@ -96,25 +93,25 @@ export default function SleekMenuPage(): React.JSX.Element {
       icon: <Utensils className="w-6 h-6" />,
       title: "Makanan Berat",
       desc: "Hidangan utama fusion Jepang yang mengenyangkan",
-      gradient: "from-amber-500 to-orange-500",
+      gradient: "from-emerald-500 to-green-600",
       count: "12+ items",
-      accent: "amber",
+      accent: "emerald",
     },
     {
       icon: <Cookie className="w-6 h-6" />,
       title: "Snacks",
       desc: "Camilan ringan dan pastry dengan sentuhan Jepang",
-      gradient: "from-rose-500 to-pink-500",
+      gradient: "from-green-500 to-emerald-600",
       count: "20+ items",
-      accent: "rose",
+      accent: "green",
     },
     {
       icon: <IceCream className="w-6 h-6" />,
       title: "Desserts",
       desc: "Dessert premium dan ice cream dengan cita rasa autentik",
-      gradient: "from-violet-500 to-purple-500",
+      gradient: "from-teal-500 to-emerald-600",
       count: "10+ items",
-      accent: "violet",
+      accent: "teal",
     },
   ]
 
@@ -122,13 +119,13 @@ export default function SleekMenuPage(): React.JSX.Element {
   const currentAspectClass = currentPaperConfig.aspectClass
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 via-slate-50 to-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-green-50/30 via-emerald-50/20 to-green-50/40">
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50/50 via-emerald-50/30 to-teal-50/40">
         <div className="max-w-7xl mx-auto">
           {/* Hero Header */}
           <div className="text-center mb-12 sm:mb-16 lg:mb-20 relative">
-            <div className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full mb-8 border border-stone-300 shadow-lg">
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full mb-8 border border-green-200/50 shadow-lg">
               <Sparkles className="w-4 h-4 text-emerald-700" />
               <span className="text-emerald-800 font-semibold text-sm">Authentic Japanese Experience</span>
             </div>
@@ -152,7 +149,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                 {/* Main Menu Display */}
                 <div className="relative mb-6">
                   <div
-                    className={`w-full max-w-sm mx-auto ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl bg-white border-2 border-stone-200 group cursor-pointer`}
+                    className={`w-full max-w-sm mx-auto ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl bg-white border-2 border-green-200/50 group cursor-pointer`}
                     onClick={() => openFullscreen(currentMenuPage)}
                   >
                     <Image
@@ -176,24 +173,22 @@ export default function SleekMenuPage(): React.JSX.Element {
                       </div>
                     </div>
                   </div>
-
                   {/* Navigation Buttons */}
                   <Button
                     onClick={prevMenuPage}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-stone-300"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-green-200/50"
                     aria-label="Previous menu page"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </Button>
                   <Button
                     onClick={nextMenuPage}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-stone-300"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-green-200/50"
                     aria-label="Next menu page"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </Button>
                 </div>
-
                 {/* Thumbnail Strip */}
                 <div className="flex gap-3 justify-center overflow-x-auto pb-2 px-2">
                   {MENU_IMAGES.map((image, index) => (
@@ -207,7 +202,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                       className={`flex-shrink-0 relative w-16 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                         index === currentMenuPage
                           ? "border-emerald-500 shadow-lg scale-110"
-                          : "border-stone-300 hover:border-emerald-300 hover:scale-105"
+                          : "border-green-200/50 hover:border-emerald-300 hover:scale-105"
                       }`}
                     >
                       <Image
@@ -237,15 +232,11 @@ export default function SleekMenuPage(): React.JSX.Element {
                     }}
                   >
                     <div
-                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-stone-200`}
+                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-green-200/50`}
                     >
                       <Image
                         src={
                           MENU_IMAGES[(currentMenuPage - 1 + MENU_IMAGES.length) % MENU_IMAGES.length] ||
-                          "/placeholder.svg" ||
-                          "/placeholder.svg" ||
-                          "/placeholder.svg" ||
-                          "/placeholder.svg" ||
                           "/placeholder.svg" ||
                           "/placeholder.svg"
                         }
@@ -260,7 +251,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                   {/* Current Page - Enhanced */}
                   <div className="relative z-10 group">
                     <div
-                      className={`relative w-80 xl:w-96 2xl:w-[26rem] ${currentAspectClass} rounded-3xl overflow-hidden shadow-2xl bg-white border border-stone-300 transition-all duration-500 group-hover:shadow-3xl cursor-pointer`}
+                      className={`relative w-80 xl:w-96 2xl:w-[26rem] ${currentAspectClass} rounded-3xl overflow-hidden shadow-2xl bg-white border border-green-200/50 transition-all duration-500 group-hover:shadow-3xl cursor-pointer`}
                       onClick={() => openFullscreen(currentMenuPage)}
                     >
                       <Image
@@ -295,7 +286,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                     }}
                   >
                     <div
-                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-stone-200`}
+                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-green-200/50`}
                     >
                       <Image
                         src={MENU_IMAGES[(currentMenuPage + 1) % MENU_IMAGES.length] || "/placeholder.svg"}
@@ -311,14 +302,14 @@ export default function SleekMenuPage(): React.JSX.Element {
                 {/* Enhanced Desktop Navigation */}
                 <Button
                   onClick={prevMenuPage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-stone-300 hover:scale-110"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-green-200/50 hover:scale-110"
                   aria-label="Previous menu page"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </Button>
                 <Button
                   onClick={nextMenuPage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-stone-300 hover:scale-110"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-green-200/50 hover:scale-110"
                   aria-label="Next menu page"
                 >
                   <ChevronRight className="w-6 h-6" />
@@ -340,7 +331,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                     className={`transition-all duration-500 relative ${
                       index === currentMenuPage
                         ? "w-8 h-3 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-full shadow-lg"
-                        : "w-3 h-3 bg-stone-300 hover:bg-stone-400 rounded-full shadow-sm hover:shadow-md hover:scale-110"
+                        : "w-3 h-3 bg-green-300/60 hover:bg-green-400/80 rounded-full shadow-sm hover:shadow-md hover:scale-110"
                     }`}
                     aria-label={`Go to menu page ${index + 1}`}
                   />
@@ -352,16 +343,16 @@ export default function SleekMenuPage(): React.JSX.Element {
       </section>
 
       {/* Enhanced Menu Categories */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50/40 via-green-50/30 to-teal-50/40">
         <div className="max-w-7xl mx-auto relative">
           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-            <div className="inline-flex items-center gap-3 bg-stone-50 px-8 py-4 rounded-full mb-8 border border-stone-300 shadow-lg">
+            <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-sm px-8 py-4 rounded-full mb-8 border border-green-200/50 shadow-lg">
               <Coffee className="w-5 h-5 text-emerald-700" />
               <span className="text-emerald-800 font-bold text-lg">Kategori Menu</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
-              <span className="relative inline-block px-8 py-6 bg-gradient-to-br from-green-200 via-emerald-100 to-teal-100 rounded-3xl shadow-xl border border-green-300/50 backdrop-blur-sm">
-                <span className="absolute inset-0 bg-gradient-to-tr from-green-300/20 via-transparent to-emerald-200/30 rounded-3xl"></span>
+              <span className="relative inline-block px-8 py-6 bg-gradient-to-br from-green-100/80 via-emerald-50/60 to-teal-100/70 rounded-3xl shadow-xl border border-green-200/40 backdrop-blur-sm">
+                <span className="absolute inset-0 bg-gradient-to-tr from-green-200/20 via-transparent to-emerald-100/30 rounded-3xl"></span>
                 <span className="relative bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 bg-clip-text text-transparent">
                   Temukan Menu Favorit
                 </span>
@@ -371,12 +362,11 @@ export default function SleekMenuPage(): React.JSX.Element {
               Setiap hidangan dibuat dengan dedikasi tinggi menggunakan bahan premium pilihan
             </p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {menuCategories.map((category, index) => (
               <Card
                 key={index}
-                className="group relative text-center p-6 lg:p-8 border border-stone-200 shadow-lg rounded-2xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                className="group relative text-center p-6 lg:p-8 border border-green-200/50 shadow-lg rounded-2xl bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
               >
                 <CardContent className="space-y-6 relative z-10 p-0">
                   <div className="flex justify-center">
@@ -391,7 +381,7 @@ export default function SleekMenuPage(): React.JSX.Element {
                       {category.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">{category.desc}</p>
-                    <div className="inline-flex items-center gap-2 bg-stone-50 px-4 py-2 rounded-full border border-stone-300">
+                    <div className="inline-flex items-center gap-2 bg-green-50/80 px-4 py-2 rounded-full border border-green-200/50">
                       <span className="text-sm font-semibold text-emerald-800">{category.count}</span>
                     </div>
                   </div>
@@ -403,7 +393,7 @@ export default function SleekMenuPage(): React.JSX.Element {
       </section>
 
       {/* Clean CTA Section */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50">
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50/60 via-emerald-50/40 to-teal-50/50">
         <div className="max-w-6xl mx-auto">
           <div className="relative bg-gradient-to-br from-emerald-700 via-teal-700 to-emerald-800 rounded-3xl shadow-2xl overflow-hidden">
             <div className="relative z-10 p-8 sm:p-12 lg:p-16">
@@ -422,7 +412,6 @@ export default function SleekMenuPage(): React.JSX.Element {
                   instagramable
                 </p>
               </div>
-
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 {/* Visit Location Card */}
                 <div className="group relative bg-white/10 border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-500 hover:-translate-y-1">
@@ -454,7 +443,6 @@ export default function SleekMenuPage(): React.JSX.Element {
                     </a>
                   </div>
                 </div>
-
                 {/* Order Online Card */}
                 <div className="group relative bg-white/10 border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-500 hover:-translate-y-1">
                   <div className="relative z-10 text-center space-y-6">
@@ -486,7 +474,6 @@ export default function SleekMenuPage(): React.JSX.Element {
                   </div>
                 </div>
               </div>
-
               <div className="text-center mt-12">
                 <p className="text-white/70 text-sm">
                   🌟 Shibui: Tempat terbaik untuk nikmati matcha dan suasana tenang di Cirebon.
@@ -511,7 +498,6 @@ export default function SleekMenuPage(): React.JSX.Element {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
             {/* Navigation Buttons */}
             <button
               onClick={() => {
@@ -522,7 +508,6 @@ export default function SleekMenuPage(): React.JSX.Element {
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
-
             <button
               onClick={() => {
                 setCurrentMenuPage((prev) => (prev + 1) % MENU_IMAGES.length)
@@ -532,7 +517,6 @@ export default function SleekMenuPage(): React.JSX.Element {
             >
               <ChevronRight className="w-6 h-6" />
             </button>
-
             {/* Fullscreen Image */}
             <div className="relative w-full h-full flex items-center justify-center">
               <div className="relative w-full h-full max-w-4xl max-h-full">
@@ -546,7 +530,6 @@ export default function SleekMenuPage(): React.JSX.Element {
                 />
               </div>
             </div>
-
             {/* Page Indicators */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
               {MENU_IMAGES.map((_, index) => (
@@ -565,7 +548,6 @@ export default function SleekMenuPage(): React.JSX.Element {
           </div>
         </div>
       )}
-
       <div className="h-20"></div>
     </div>
   )

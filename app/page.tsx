@@ -10,26 +10,25 @@ import Image from "next/image"
 const IMAGES = {
   hero: {
     background: "/shibui-background.jpg",
-    mainCafe: "/placeholder.svg?height=800&width=600",
   },
   menu: {
-    matchaLatte: "/placeholder.svg?height=400&width=400",
-    hojichaCreem: "/placeholder.svg?height=400&width=400",
-    matchaCheesecake: "/placeholder.svg?height=400&width=400",
-    greenTeaIceCream: "/placeholder.svg?height=400&width=400",
+    matchaLatte: "/example/pexels-fotios-photos-2193600.jpg",
+    hojichaCreem: "/example/pexels-foodphotography-18794176.jpg",
+    matchaCheesecake: "/example/pexels-anna-guerrero-788383-4078187.jpg",
+    greenTeaIceCream: "/example/pexels-fotios-photos-2193600.jpg",
   },
   spaces: {
-    cozyCorner: "/placeholder.svg?height=500&width=700",
-    workStation: "/placeholder.svg?height=500&width=700",
-    matchaCounter: "/placeholder.svg?height=500&width=700",
-    socialSpace: "/placeholder.svg?height=500&width=700",
+    cozyCorner: "/example/pexels-edmond-dantes-4347212.jpg",
+    workStation: "/example/pexels-edmond-dantes-4347212.jpg",
+    matchaCounter: "/example/pexels-edmond-dantes-4347212.jpg",
+    socialSpace: "/example/pexels-edmond-dantes-4347212.jpg",
   },
   story: {
-    cafeInterior: "/placeholder.svg?height=600&width=800",
-    atmosphere: "/placeholder.svg?height=500&width=700",
+    cafeInterior: "/example/pexels-jerchung-2156698.jpg",
+    atmosphere: "/example/pexels-edmond-dantes-4347212.jpg",
   },
   cta: {
-    featuredDrink: "/placeholder.svg?height=200&width=200",
+    featuredDrink: "/example/pexels-anna-guerrero-788383-4078187.jpg",
   },
 }
 
@@ -37,7 +36,7 @@ const IMAGES = {
 const heroMenu = [
   {
     name: "Matcha Latte Supreme",
-    image: IMAGES.menu.matchaLatte,
+    image: IMAGES.menu.hojichaCreem,
     rating: 4.9,
     popular: true,
   },
@@ -105,32 +104,12 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const featuredMenuItems = [
-    {
-      name: "Matcha Latte Premium",
-      image: IMAGES.menu.matchaLatte,
-      rating: 4.9,
-      popular: true,
-    },
-    {
-      name: "Hojicha Cream",
-      image: IMAGES.menu.hojichaCreem,
-      rating: 4.8,
-      popular: false,
-    },
-    {
-      name: "Matcha Cheesecake",
-      image: IMAGES.menu.matchaCheesecake,
-      rating: 4.9,
-      popular: true,
-    },
-  ]
 
   const signatureDrinks = [
     {
       name: "Matcha Latte Premium",
       desc: "Rich matcha dengan foam art",
-      image: IMAGES.menu.matchaLatte,
+      image: IMAGES.menu.hojichaCreem,
     },
     {
       name: "Hojicha Cream",
@@ -461,17 +440,17 @@ export default function HomePage() {
             </div>
 
             {/* Right - Cafe Photo */}
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-white border border-green-100">
-                <Image
-                  src={IMAGES.story.cafeInterior || "/placeholder.svg"}
-                  alt="Shibui Cafe Interior Story"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
+        <div className="relative">
+  <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-white border border-green-100 drop-shadow-[0_0_20px_rgba(34,197,94,0.3)] shadow-green-200/50">
+    <Image
+      src={IMAGES.story.cafeInterior || "/placeholder.svg"}
+      alt="Shibui Cafe Interior Story"
+      fill
+      className="object-cover"
+      sizes="(max-width: 768px) 100vw, 50vw"
+    />
+  </div>
+</div>
           </div>
 
           {/* Features Grid */}
@@ -608,7 +587,7 @@ export default function HomePage() {
                       <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
-                            <h4 className="text-white font-semibold text-base mb-1">Natural Lighting</h4>
+                            <h4 className="text-white font-semibold text-base mb-1">Nyaman Buat Nongkrong & Nugas</h4>
                             <p className="text-white/60 text-sm leading-relaxed">
                               Tempat yang luas dengan natural lighting membuat cozy
                             </p>
@@ -618,7 +597,7 @@ export default function HomePage() {
                       <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                         <CardContent className="space-y-3 p-0">
                           <div>
-                            <h4 className="text-white font-semibold text-base mb-1">Socket Charger</h4>
+                            <h4 className="text-white font-semibold text-base mb-1">Fasilitas Charging Lengkap</h4>
                             <p className="text-white/60 text-sm leading-relaxed">
                               Banyak socket charger untuk mendukung aktivitas kerja dan belajar
                             </p>
