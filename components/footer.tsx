@@ -2,7 +2,7 @@ import { MapPin, Phone, Instagram, ShoppingBag } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1b3a26] shadow-[0_-8px_64px_rgba(0,0,0,0.15)]">
+    <footer className="bg-[#1b3a26] drop-shadow-[0_-8px_32px_rgba(0,0,0,0.19)] rounded-t-[50px] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
           {/* Logo Section */}
@@ -26,42 +26,42 @@ export default function Footer() {
           {/* Contact & Social Section */}
           <div className="flex flex-col items-center lg:items-start space-y-6">
             <h4 className="text-white font-semibold text-lg mb-2">Hubungi Kami</h4>
-            
+
             {/* Social Links */}
             <div className="flex flex-col space-y-4 w-full max-w-xs">
-              <a 
-                href="https://wa.me/6281234567890" 
-                target="_blank" 
+              <a
+                href="https://wa.me/6281234567890"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-green-600 hover:bg-green-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Phone className="w-5 h-5 text-white" />
                 <span className="text-white font-medium">WhatsApp</span>
               </a>
-              
-              <a 
-                href="https://instagram.com/shibui.cirebon" 
-                target="_blank" 
+
+              <a
+                href="https://instagram.com/shibui.cirebon"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Instagram className="w-5 h-5 text-white" />
                 <span className="text-white font-medium">Instagram</span>
               </a>
-              
-              <a 
-                href="https://food.grab.com/id/en/restaurant/shibui-matcha-bar-cirebon" 
-                target="_blank" 
+
+              <a
+                href="https://food.grab.com/id/en/restaurant/shibui-matcha-bar-cirebon"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-lime-600 hover:bg-lime-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <ShoppingBag className="w-5 h-5 text-white" />
                 <span className="text-white font-medium">Order GrabFood</span>
               </a>
-              
-              <a 
-                href="https://maps.google.com/?q=Shibui+Matcha+Bar+Cirebon" 
-                target="_blank" 
+
+              <a
+                href="https://maps.google.com/?q=Shibui+Matcha+Bar+Cirebon"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-blue-600 hover:bg-blue-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
@@ -95,11 +95,8 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-green-300/30">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-green-100 text-sm">
-             © {new Date().getFullYear()} SHIBUI Matcha Bar & Cafe.
-            </p>
-            <div className="flex space-x-6">
-            </div>
+            <p className="text-green-100 text-sm">© {new Date().getFullYear()} SHIBUI Matcha Bar & Cafe.</p>
+            <div className="flex space-x-6"></div>
           </div>
         </div>
       </div>
