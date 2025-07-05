@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, Home, UtensilsCrossed, Phone } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 
 export default function Navigation() {
@@ -63,7 +63,7 @@ export default function Navigation() {
             <Link href="/" className="flex items-center group">
               <div className="relative w-32 h-12 sm:w-36 sm:h-14 md:w-40 md:h-16 transition-all duration-300 group-hover:scale-105">
                 <Image
-                  src="/placeholder.svg?height=64&width=160"
+                  src="/shibui-logo.png"
                   alt="SHIBUI Logo"
                   width={160}
                   height={64}
@@ -123,7 +123,6 @@ export default function Navigation() {
                 className="w-[300px] sm:w-[350px] bg-gradient-to-br from-[#1b3a26] via-[#1b3a26]/95 to-[#0f2418] border-l border-white/10 backdrop-blur-xl"
               >
                 <SheetHeader className="text-left pb-6">
-                  <SheetTitle className="text-white text-xl font-light tracking-wide">Menu Navigasi</SheetTitle>
                   <div className="space-y-2">
                     <p className="text-white/70 text-sm">Matcha Bar & Cafe</p>
                     <div className="flex items-center space-x-2">
@@ -136,7 +135,7 @@ export default function Navigation() {
                 <Separator className="bg-white/10 mb-6" />
 
                 {/* Navigation Items */}
-                <nav className="space-y-2" role="navigation" aria-label="Menu navigasi utama">
+                <nav className="space-y-2" role="navigation" aria-label="Navigasi utama">
                   {navItems.map((item) => {
                     const Icon = item.icon
                     const isActive = pathname === item.href
@@ -188,7 +187,9 @@ export default function Navigation() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <Separator className="bg-white/10 mb-4" />
                   <div className="text-center">
-                    <p className="text-xs text-white/40 font-light">© 2024 SHIBUI Matcha Bar & Cafe</p>
+                    <p className="text-xs text-white/40 font-light">
+                      © {new Date().getFullYear()} SHIBUI Matcha Bar & Cafe
+                    </p>
                   </div>
                 </div>
               </SheetContent>
