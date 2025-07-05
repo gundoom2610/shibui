@@ -3,64 +3,67 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, Home, UtensilsCrossed, Phone } from "lucide-react"
 import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Separator } from "@/components/ui/separator"
 
 export default function Navigation() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
+  // Close mobile menu on route change
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [isOpen])
+    setIsOpen(false)
+  }, [pathname])
 
-  // Handle window resize to close mobile menu and cleanup styles
+  // Handle keyboard navigation
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) { // md breakpoint
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
         setIsOpen(false)
-        document.body.style.overflow = "unset"
       }
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      document.body.style.overflow = "unset"
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown)
+      return () => document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [])
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [])
+  }, [isOpen])
 
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/menu", label: "Menu" },
-    { href: "/contact", label: "Kontak" },
+    {
+      href: "/",
+      label: "Home",
+      icon: Home,
+      description: "Kembali ke halaman utama",
+    },
+    {
+      href: "/menu",
+      label: "Menu",
+      icon: UtensilsCrossed,
+      description: "Lihat menu makanan dan minuman",
+    },
+    {
+      href: "/contact",
+      label: "Kontak",
+      icon: Phone,
+      description: "Hubungi kami",
+    },
   ]
 
   return (
     <>
       {/* Navigation */}
       <nav className="bg-[#1b3a26]/90 backdrop-blur-xl sticky top-0 z-50 border-b border-white/10 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 sm:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
-              <div className="relative w-36 h-14 md:w-40 md:h-16 transition-all duration-300 group-hover:scale-105">
+              <div className="relative w-32 h-12 sm:w-36 sm:h-14 md:w-40 md:h-16 transition-all duration-300 group-hover:scale-105">
                 <Image
-                  src="/shibui-logo.png"
+                  src="/placeholder.svg?height=64&width=160"
                   alt="SHIBUI Logo"
                   width={160}
                   height={64}
@@ -82,140 +85,117 @@ export default function Navigation() {
                 >
                   <span
                     className={`transition-all duration-300 font-medium tracking-wide ${
-                      pathname === item.href 
-                        ? "bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] bg-clip-text text-transparent font-bold drop-shadow-sm scale-105" 
+                      pathname === item.href
+                        ? "bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] bg-clip-text text-transparent font-bold drop-shadow-sm scale-105"
                         : "text-white/90 hover:text-white hover:drop-shadow-md hover:scale-105"
                     }`}
                   >
                     {item.label}
                   </span>
-
                   {/* Enhanced gradient underline with glow */}
                   <div
                     className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] transition-all duration-300 ${
-                      pathname === item.href ? "w-full shadow-lg shadow-[#c5a294]/50" : "w-0 group-hover:w-full group-hover:shadow-lg group-hover:shadow-[#c5a294]/30"
+                      pathname === item.href
+                        ? "w-full shadow-lg shadow-[#c5a294]/50"
+                        : "w-0 group-hover:w-full group-hover:shadow-lg group-hover:shadow-[#c5a294]/30"
                     }`}
                   ></div>
-
                   {/* Subtle background hover effect */}
                   <div className="absolute inset-0 bg-white/5 rounded-lg scale-95 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 -z-10"></div>
                 </Link>
               ))}
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-3 text-white hover:bg-white/10 rounded-xl transition-all duration-200 hover:drop-shadow-lg hover:scale-105 active:scale-95"
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 h-6 relative">
-                <Menu
-                  size={24}
-                  className={`absolute transition-all duration-300 ${
-                    isOpen ? "opacity-0 rotate-180 scale-75" : "opacity-100 rotate-0 scale-100"
-                  }`}
-                />
-                <X
-                  size={24}
-                  className={`absolute transition-all duration-300 ${
-                    isOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-180 scale-75"
-                  }`}
-                />
-              </div>
-            </button>
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden text-white hover:bg-white/10 hover:text-white transition-colors"
+                  aria-label="Buka menu navigasi"
+                >
+                  <Menu size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[300px] sm:w-[350px] bg-gradient-to-br from-[#1b3a26] via-[#1b3a26]/95 to-[#0f2418] border-l border-white/10 backdrop-blur-xl"
+              >
+                <SheetHeader className="text-left pb-6">
+                  <SheetTitle className="text-white text-xl font-light tracking-wide">Menu Navigasi</SheetTitle>
+                  <div className="space-y-2">
+                    <p className="text-white/70 text-sm">Matcha Bar & Cafe</p>
+                    <div className="flex items-center space-x-2">
+                      <div className="h-px w-8 bg-gradient-to-r from-[#c5a294] to-transparent"></div>
+                      <span className="text-xs tracking-wider text-[#c5a294] font-light">di Cirebon</span>
+                    </div>
+                  </div>
+                </SheetHeader>
+
+                <Separator className="bg-white/10 mb-6" />
+
+                {/* Navigation Items */}
+                <nav className="space-y-2" role="navigation" aria-label="Menu navigasi utama">
+                  {navItems.map((item) => {
+                    const Icon = item.icon
+                    const isActive = pathname === item.href
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-200 group ${
+                          isActive
+                            ? "bg-gradient-to-r from-[#c5a294]/20 to-[#d4b5a4]/20 border border-[#c5a294]/30"
+                            : "hover:bg-white/5 active:bg-white/10"
+                        }`}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        <div
+                          className={`p-2 rounded-lg transition-colors ${
+                            isActive
+                              ? "bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] text-white"
+                              : "bg-white/10 text-white/70 group-hover:bg-white/20 group-hover:text-white"
+                          }`}
+                        >
+                          <Icon size={18} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className={`font-medium transition-colors ${
+                              isActive
+                                ? "bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] bg-clip-text text-transparent"
+                                : "text-white group-hover:text-white/90"
+                            }`}
+                          >
+                            {item.label}
+                          </div>
+                          <div className="text-xs text-white/50 group-hover:text-white/60 transition-colors mt-1">
+                            {item.description}
+                          </div>
+                        </div>
+                        {isActive && (
+                          <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] shadow-lg shadow-[#c5a294]/50"></div>
+                        )}
+                      </Link>
+                    )
+                  })}
+                </nav>
+
+                {/* Footer */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <Separator className="bg-white/10 mb-4" />
+                  <div className="text-center">
+                    <p className="text-xs text-white/40 font-light">© 2024 SHIBUI Matcha Bar & Cafe</p>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
-
-      {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-      >
-        {/* Enhanced Backdrop with gradient */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-br from-[#1b3a26]/95 via-[#1b3a26]/90 to-[#0f2418]/95 backdrop-blur-2xl transition-all duration-500 ${
-            isOpen ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={() => setIsOpen(false)}
-        />
-
-        {/* Menu Content */}
-        <div
-          className={`relative h-full flex flex-col justify-center px-8 transition-all duration-500 ${
-            isOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-          }`}
-        >
-          {/* Enhanced Brand Section */}
-          <div className="text-center mb-20">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-light tracking-wide text-white/95 drop-shadow-lg">
-                Matcha Bar & Cafe
-              </h2>
-              
-              <div className="flex items-center justify-center space-x-6">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent via-[#c5a294]/60 to-[#c5a294]"></div>
-                <span className="text-lg tracking-widest font-light bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] bg-clip-text text-transparent drop-shadow-sm">
-                  di Cirebon
-                </span>
-                <div className="h-px w-16 bg-gradient-to-r from-[#c5a294] via-[#c5a294]/60 to-transparent"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Items */}
-          <div className="space-y-6">
-            {navItems.map((item, index) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={`block transition-all duration-700 group ${
-                  isOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: isOpen ? `${index * 150 + 200}ms` : "0ms",
-                }}
-              >
-                <div className="text-center py-4 px-6 rounded-2xl transition-all duration-300 group-hover:bg-white/5 group-active:bg-white/10">
-                  <span
-                    className={`text-3xl font-light tracking-wider transition-all duration-300 ${
-                      pathname === item.href 
-                        ? "bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] bg-clip-text text-transparent font-medium drop-shadow-sm" 
-                        : "text-white/90 hover:text-white group-hover:scale-105 group-hover:drop-shadow-lg"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-
-                  {/* Enhanced gradient line indicator */}
-                  <div className="flex justify-center mt-4">
-                    <div
-                      className={`h-1 bg-gradient-to-r from-[#c5a294] to-[#d4b5a4] rounded-full transition-all duration-500 ${
-                        pathname === item.href 
-                          ? "w-16 shadow-lg shadow-[#c5a294]/50" 
-                          : "w-0 group-hover:w-12 group-hover:shadow-md group-hover:shadow-[#c5a294]/30"
-                      }`}
-                    ></div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Enhanced footer with decorative elements */}
-          <div className="absolute bottom-12 left-8 right-8">
-            <div className="text-center space-y-4">
-              {/* Decorative line */}
-              <div className="flex justify-center">
-                <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#c5a294]/60 to-transparent"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   )
 }
