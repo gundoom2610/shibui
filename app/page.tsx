@@ -55,16 +55,16 @@ const heroMenu = [
   },
 ]
 
-// Update the Instagram Reels Data section - replace the complex embedHtml with simple permalink
+// Instagram Reels Data with proper embed URLs
 const instagramReels = [
   {
     id: 1,
-    permalink: "https://www.instagram.com/reel/DLrLyGUSj6y/?utm_source=ig_embed&amp;utm_campaign=loading",
+    permalink: "https://www.instagram.com/reel/DLrLyGUSj6y/",
     caption: "Proses pembuatan matcha latte premium kami ✨",
   },
   {
     id: 2,
-    permalink: "https://www.instagram.com/reel/DLeMTs5zqYC/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==g",
+    permalink: "https://www.instagram.com/reel/DLeMTs5zqYC/",
     caption: "Tempat Matcha Terbaik di Cirebon! 🍵",
   },
 ]
@@ -107,10 +107,75 @@ function useScrollAnimation() {
   return visibleElements
 }
 
+// Custom hook for Instagram embed management
+function useInstagramEmbeds() {
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false)
+  const [embedsProcessed, setEmbedsProcessed] = useState(false)
+  const retryTimeoutRef = useRef<NodeJS.Timeout>()
+
+  const processEmbeds = () => {
+    // @ts-ignore
+    if (typeof window !== "undefined" && window.instgrm) {
+      try {
+        // @ts-ignore
+        window.instgrm.Embeds.process()
+        setEmbedsProcessed(true)
+      } catch (error) {
+        console.log("Instagram embed processing failed, retrying...", error)
+        // Retry after a short delay
+        retryTimeoutRef.current = setTimeout(() => {
+          processEmbeds()
+        }, 1000)
+      }
+    }
+  }
+
+  const refreshEmbeds = () => {
+    setEmbedsProcessed(false)
+    // Clear existing embeds and reprocess
+    setTimeout(() => {
+      processEmbeds()
+    }, 100)
+  }
+
+  useEffect(() => {
+    if (isScriptLoaded) {
+      // Process embeds when script is loaded
+      processEmbeds()
+    }
+
+    return () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current)
+      }
+    }
+  }, [isScriptLoaded])
+
+  // Auto-refresh embeds periodically to ensure they stay loaded
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isScriptLoaded && !embedsProcessed) {
+        processEmbeds()
+      }
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [isScriptLoaded, embedsProcessed])
+
+  return {
+    isScriptLoaded,
+    setIsScriptLoaded,
+    embedsProcessed,
+    refreshEmbeds,
+    processEmbeds,
+  }
+}
+
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const visibleElements = useScrollAnimation()
+  const { isScriptLoaded, setIsScriptLoaded, embedsProcessed, refreshEmbeds, processEmbeds } = useInstagramEmbeds()
 
   useEffect(() => {
     setIsVisible(true)
@@ -118,6 +183,16 @@ export default function HomePage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Process embeds when Instagram section becomes visible
+  useEffect(() => {
+    if (visibleElements.has("instagram-reels") && isScriptLoaded) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        processEmbeds()
+      }, 500)
+    }
+  }, [visibleElements, isScriptLoaded])
 
   const signatureDrinks = [
     {
@@ -194,16 +269,20 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Instagram Embed Script */}
+      {/* Instagram Embed Script with improved loading */}
       <Script
         src="https://www.instagram.com/embed.js"
         strategy="lazyOnload"
         onLoad={() => {
+          setIsScriptLoaded(true)
           // @ts-ignore
           if (window.instgrm) {
             // @ts-ignore
             window.instgrm.Embeds.process()
           }
+        }}
+        onError={() => {
+          console.log("Instagram script failed to load")
         }}
       />
 
@@ -733,7 +812,7 @@ export default function HomePage() {
           <div className="h-8 sm:h-12"></div>
         </section>
 
-        {/* Instagram Reels Section */}
+        {/* Instagram Reels Section - Enhanced with Refresh Functionality */}
         <section
           className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-green-50"
           data-animate
@@ -759,6 +838,18 @@ export default function HomePage() {
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-medium">
                 Ikuti momen-momen spesial dan behind the scenes pembuatan minuman premium kami
               </p>
+
+              {/* Refresh Button for Instagram Embeds */}
+              <div className="mt-6">
+                <Button
+                  onClick={refreshEmbeds}
+                  variant="outline"
+                  className="group border-2 border-pink-200 text-pink-600 hover:border-pink-400 hover:text-pink-700 px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-sm font-semibold bg-white/95 backdrop-blur-sm"
+                >
+                  <Instagram className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Refresh Instagram Posts</span>
+                </Button>
+              </div>
             </div>
 
             {/* Instagram Reels Grid */}
@@ -773,22 +864,43 @@ export default function HomePage() {
                     transitionDelay: visibleElements.has("instagram-reels") ? `${index * 300}ms` : "0ms",
                   }}
                 >
-                  <div className="bg-white rounded-3xl shadow-lg p-4">
+                  <div className="bg-white rounded-3xl shadow-lg p-4 hover:shadow-xl transition-shadow duration-300">
                     <blockquote
                       className="instagram-media"
                       data-instgrm-permalink={reel.permalink}
                       data-instgrm-version="14"
+                      style={{
+                        background: "#FFF",
+                        border: "0",
+                        borderRadius: "16px",
+                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                        margin: "1px",
+                        maxWidth: "540px",
+                        minWidth: "326px",
+                        padding: "0",
+                        width: "100%",
+                      }}
                     >
-                      {/* Fallback content while Instagram loads */}
+                      {/* Enhanced Fallback content while Instagram loads */}
                       <div className="flex items-center justify-center min-h-[400px] bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl">
                         <div className="text-center space-y-4 p-8">
-                          <Instagram className="w-16 h-16 text-pink-400 mx-auto animate-pulse" />
-                          <p className="text-gray-700 font-semibold text-lg">Loading Instagram Reel...</p>
-                          <p className="text-sm text-gray-500">{reel.caption}</p>
+                          <div className="relative">
+                            <Instagram className="w-16 h-16 text-pink-400 mx-auto animate-pulse" />
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 rounded-full animate-ping"></div>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-gray-700 font-semibold text-lg">Loading Instagram Reel...</p>
+                            <p className="text-sm text-gray-500 max-w-xs mx-auto">{reel.caption}</p>
+                          </div>
+                          {!isScriptLoaded && (
+                            <div className="text-xs text-gray-400">Waiting for Instagram script to load...</div>
+                          )}
+                          {isScriptLoaded && !embedsProcessed && (
+                            <div className="text-xs text-gray-400">Processing Instagram embeds...</div>
+                          )}
                         </div>
                       </div>
                     </blockquote>
-
                     <div className="mt-4 text-center">
                       <p className="text-gray-700 font-medium">{reel.caption}</p>
                     </div>
@@ -811,24 +923,52 @@ export default function HomePage() {
                 <span>Follow @shibui.cirebon</span>
               </Button>
             </div>
+
+            {/* Debug Info (remove in production) */}
+            {process.env.NODE_ENV === "development" && (
+              <div className="mt-8 text-center text-xs text-gray-400 space-y-1">
+                <div>Script Loaded: {isScriptLoaded ? "✅" : "❌"}</div>
+                <div>Embeds Processed: {embedsProcessed ? "✅" : "❌"}</div>
+                <div>Section Visible: {visibleElements.has("instagram-reels") ? "✅" : "❌"}</div>
+              </div>
+            )}
           </div>
         </section>
       </div>
-      {/* Add this style tag in the component */}
+
+      {/* Enhanced Instagram Embed Styles */}
       <style jsx global>{`
-  .instagram-media {
-    margin: 0 auto !important;
-    border-radius: 24px !important;
-    overflow: hidden !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-  }
-  
-  .instagram-media:hover {
-    transform: translateY(-2px);
-    transition: all 0.3s ease;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-  }
-`}</style>
+        .instagram-media {
+          margin: 0 auto !important;
+          border-radius: 24px !important;
+          overflow: hidden !important;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+          transition: all 0.3s ease !important;
+        }
+        
+        .instagram-media:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* Ensure Instagram embeds are responsive */
+        .instagram-media iframe {
+          border-radius: 16px !important;
+        }
+
+        /* Loading state improvements */
+        .instagram-media[data-instgrm-permalink] {
+          min-height: 400px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Hide Instagram's default loading */
+        .instagram-media .instagram-media-loading {
+          display: none !important;
+        }
+      `}</style>
     </>
   )
 }
