@@ -1,4 +1,5 @@
 "use client"
+
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -44,6 +45,41 @@ interface MenuCategory {
   accent: string
 }
 
+const menuCategories: MenuCategory[] = [
+  {
+    icon: <Coffee className="w-6 h-6 text-[#1b3b26]" />,
+    title: "Matcha & Coffee",
+    desc: "Premium matcha dan coffee specialty dengan beans terpilih",
+    gradient: "from-[#c8a28e] to-[#d4b299]",
+    count: "15+ items",
+    accent: "primary",
+  },
+  {
+    icon: <Utensils className="w-6 h-6 text-[#1b3b26]" />,
+    title: "Makanan Berat",
+    desc: "Hidangan utama fusion Jepang yang mengenyangkan",
+    gradient: "from-[#c8a28e] to-[#d4b299]",
+    count: "12+ items",
+    accent: "primary",
+  },
+  {
+    icon: <Cookie className="w-6 h-6 text-[#1b3b26]" />,
+    title: "Snacks",
+    desc: "Camilan ringan dan pastry dengan sentuhan Jepang",
+    gradient: "from-[#c8a28e] to-[#d4b299]",
+    count: "20+ items",
+    accent: "secondary",
+  },
+  {
+    icon: <IceCream className="w-6 h-6 text-[#1b3b26]" />,
+    title: "Desserts",
+    desc: "Dessert premium dan ice cream dengan cita rasa autentik",
+    gradient: "from-[#c8a28e] to-[#d4b299]",
+    count: "10+ items",
+    accent: "secondary",
+  },
+]
+
 export default function SleekMenuPage(): React.JSX.Element {
   const [currentMenuPage, setCurrentMenuPage] = useState<number>(0)
   const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true)
@@ -80,57 +116,33 @@ export default function SleekMenuPage(): React.JSX.Element {
     setIsFullscreen(false)
   }
 
-  const menuCategories: MenuCategory[] = [
-    {
-      icon: <Coffee className="w-6 h-6" />,
-      title: "Matcha & Coffee",
-      desc: "Premium matcha dan coffee specialty dengan beans terpilih",
-      gradient: "from-emerald-600 to-teal-700",
-      count: "15+ items",
-      accent: "emerald",
-    },
-    {
-      icon: <Utensils className="w-6 h-6" />,
-      title: "Makanan Berat",
-      desc: "Hidangan utama fusion Jepang yang mengenyangkan",
-      gradient: "from-emerald-500 to-green-600",
-      count: "12+ items",
-      accent: "emerald",
-    },
-    {
-      icon: <Cookie className="w-6 h-6" />,
-      title: "Snacks",
-      desc: "Camilan ringan dan pastry dengan sentuhan Jepang",
-      gradient: "from-green-500 to-emerald-600",
-      count: "20+ items",
-      accent: "green",
-    },
-    {
-      icon: <IceCream className="w-6 h-6" />,
-      title: "Desserts",
-      desc: "Dessert premium dan ice cream dengan cita rasa autentik",
-      gradient: "from-teal-500 to-emerald-600",
-      count: "10+ items",
-      accent: "teal",
-    },
-  ]
-
   const currentPaperConfig = PAPER_CONFIGS[PAPER_FORMAT]
   const currentAspectClass = currentPaperConfig.aspectClass
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50/30 via-emerald-50/20 to-green-50/40">
+    <div className="min-h-screen" style={{ background: "linear-gradient(to bottom, #f8f6f3, #f5f2ed, #f8f6f3)" }}>
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50/50 via-emerald-50/30 to-teal-50/40">
+      <section
+        className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
+        style={{ background: "linear-gradient(135deg, #f8f6f3 0%, #f5f2ed 50%, #f0ebe4 100%)" }}
+      >
         <div className="max-w-7xl mx-auto">
           {/* Hero Header */}
           <div className="text-center mb-12 sm:mb-16 lg:mb-20 relative">
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full mb-8 border border-green-200/50 shadow-lg">
-              <Sparkles className="w-4 h-4 text-emerald-700" />
-              <span className="text-emerald-800 font-semibold text-sm">Authentic Japanese Experience</span>
+            <div
+              className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full mb-8 shadow-lg"
+              style={{ border: "1px solid #c8a28e40" }}
+            >
+              <Sparkles className="w-4 h-4" style={{ color: "#1b3b26" }} />
+              <span className="font-semibold text-sm" style={{ color: "#1b3b26" }}>
+                Authentic Japanese Experience
+              </span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6 tracking-tight leading-[0.9]">
-              <span className="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 bg-clip-text text-transparent">
+              <span
+                className="bg-gradient-to-r bg-clip-text text-transparent"
+                style={{ backgroundImage: "linear-gradient(to right, #1b3b26, #2d5a3a, #1b3b26)" }}
+              >
                 Menu Lengkap
               </span>
               <br />
@@ -149,7 +161,8 @@ export default function SleekMenuPage(): React.JSX.Element {
                 {/* Main Menu Display */}
                 <div className="relative mb-6">
                   <div
-                    className={`w-full max-w-sm mx-auto ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl bg-white border-2 border-green-200/50 group cursor-pointer`}
+                    className={`w-full max-w-sm mx-auto ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl bg-white group cursor-pointer`}
+                    style={{ border: "2px solid #c8a28e80" }}
                     onClick={() => openFullscreen(currentMenuPage)}
                   >
                     <Image
@@ -176,14 +189,22 @@ export default function SleekMenuPage(): React.JSX.Element {
                   {/* Navigation Buttons */}
                   <Button
                     onClick={prevMenuPage}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-green-200/50"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30"
+                    style={{
+                      border: "2px solid #c8a28e80",
+                      color: "#1b3b26",
+                    }}
                     aria-label="Previous menu page"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </Button>
                   <Button
                     onClick={nextMenuPage}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30 border-2 border-green-200/50"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/95 hover:bg-white text-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-30"
+                    style={{
+                      border: "2px solid #c8a28e80",
+                      color: "#1b3b26",
+                    }}
                     aria-label="Next menu page"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -200,10 +221,11 @@ export default function SleekMenuPage(): React.JSX.Element {
                         setIsAutoPlay(false)
                       }}
                       className={`flex-shrink-0 relative w-16 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                        index === currentMenuPage
-                          ? "border-emerald-500 shadow-lg scale-110"
-                          : "border-green-200/50 hover:border-emerald-300 hover:scale-105"
+                        index === currentMenuPage ? "shadow-lg scale-110" : "hover:scale-105"
                       }`}
+                      style={{
+                        borderColor: index === currentMenuPage ? "#1b3b26" : "#c8a28e80",
+                      }}
                     >
                       <Image
                         src={image || "/placeholder.svg"}
@@ -212,7 +234,9 @@ export default function SleekMenuPage(): React.JSX.Element {
                         className="object-contain"
                         sizes="64px"
                       />
-                      {index === currentMenuPage && <div className="absolute inset-0 bg-emerald-500/20"></div>}
+                      {index === currentMenuPage && (
+                        <div className="absolute inset-0" style={{ backgroundColor: "#1b3b2620" }}></div>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -232,7 +256,8 @@ export default function SleekMenuPage(): React.JSX.Element {
                     }}
                   >
                     <div
-                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-green-200/50`}
+                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white`}
+                      style={{ border: "1px solid #c8a28e80" }}
                     >
                       <Image
                         src={
@@ -251,7 +276,8 @@ export default function SleekMenuPage(): React.JSX.Element {
                   {/* Current Page - Enhanced */}
                   <div className="relative z-10 group">
                     <div
-                      className={`relative w-80 xl:w-96 2xl:w-[26rem] ${currentAspectClass} rounded-3xl overflow-hidden shadow-2xl bg-white border border-green-200/50 transition-all duration-500 group-hover:shadow-3xl cursor-pointer`}
+                      className={`relative w-80 xl:w-96 2xl:w-[26rem] ${currentAspectClass} rounded-3xl overflow-hidden shadow-2xl bg-white transition-all duration-500 group-hover:shadow-3xl cursor-pointer`}
+                      style={{ border: "1px solid #c8a28e80" }}
                       onClick={() => openFullscreen(currentMenuPage)}
                     >
                       <Image
@@ -286,7 +312,8 @@ export default function SleekMenuPage(): React.JSX.Element {
                     }}
                   >
                     <div
-                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white border border-green-200/50`}
+                      className={`w-52 xl:w-64 ${currentAspectClass} rounded-2xl overflow-hidden shadow-xl opacity-60 group-hover:opacity-80 transition-all duration-500 bg-white`}
+                      style={{ border: "1px solid #c8a28e80" }}
                     >
                       <Image
                         src={MENU_IMAGES[(currentMenuPage + 1) % MENU_IMAGES.length] || "/placeholder.svg"}
@@ -302,14 +329,22 @@ export default function SleekMenuPage(): React.JSX.Element {
                 {/* Enhanced Desktop Navigation */}
                 <Button
                   onClick={prevMenuPage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-green-200/50 hover:scale-110"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 hover:scale-110"
+                  style={{
+                    border: "1px solid #c8a28e80",
+                    color: "#1b3b26",
+                  }}
                   aria-label="Previous menu page"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </Button>
                 <Button
                   onClick={nextMenuPage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 text-gray-700 hover:text-emerald-700 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 border border-green-200/50 hover:scale-110"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all duration-300 p-0 z-20 hover:scale-110"
+                  style={{
+                    border: "1px solid #c8a28e80",
+                    color: "#1b3b26",
+                  }}
                   aria-label="Next menu page"
                 >
                   <ChevronRight className="w-6 h-6" />
@@ -330,9 +365,13 @@ export default function SleekMenuPage(): React.JSX.Element {
                     }}
                     className={`transition-all duration-500 relative ${
                       index === currentMenuPage
-                        ? "w-8 h-3 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-full shadow-lg"
-                        : "w-3 h-3 bg-green-300/60 hover:bg-green-400/80 rounded-full shadow-sm hover:shadow-md hover:scale-110"
+                        ? "w-8 h-3 rounded-full shadow-lg"
+                        : "w-3 h-3 rounded-full shadow-sm hover:shadow-md hover:scale-110"
                     }`}
+                    style={{
+                      background:
+                        index === currentMenuPage ? "linear-gradient(to right, #1b3b26, #2d5a3a)" : "#c8a28e60",
+                    }}
                     aria-label={`Go to menu page ${index + 1}`}
                   />
                 ))}
@@ -343,17 +382,57 @@ export default function SleekMenuPage(): React.JSX.Element {
       </section>
 
       {/* Enhanced Menu Categories */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50/40 via-green-50/30 to-teal-50/40">
-        <div className="max-w-7xl mx-auto relative">
+      <section
+        className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #f5f2ed 0%, #f0ebe4 50%, #f8f6f3 100%)" }}
+      >
+        {/* Subtle Beige Orbs Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute -top-20 -left-20 w-40 h-40 rounded-full opacity-20 blur-3xl"
+            style={{ background: "radial-gradient(circle, #c8a28e, transparent)" }}
+          ></div>
+          <div
+            className="absolute top-1/4 -right-16 w-32 h-32 rounded-full opacity-15 blur-2xl"
+            style={{ background: "radial-gradient(circle, #d4b299, transparent)" }}
+          ></div>
+          <div
+            className="absolute -bottom-16 left-1/3 w-36 h-36 rounded-full opacity-10 blur-3xl"
+            style={{ background: "radial-gradient(circle, #c8a28e, transparent)" }}
+          ></div>
+          <div
+            className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full opacity-12 blur-2xl"
+            style={{ background: "radial-gradient(circle, #b8926e, transparent)" }}
+          ></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-            <div className="inline-flex items-center gap-3 bg-white/70 backdrop-blur-sm px-8 py-4 rounded-full mb-8 border border-green-200/50 shadow-lg">
-              <Coffee className="w-5 h-5 text-emerald-700" />
-              <span className="text-emerald-800 font-bold text-lg">Kategori Menu</span>
+            <div
+              className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-8 py-4 rounded-full mb-8 shadow-lg"
+              style={{ border: "1px solid #c8a28e80" }}
+            >
+              <Coffee className="w-5 h-5" style={{ color: "#1b3b26" }} />
+              <span className="font-bold text-lg" style={{ color: "#1b3b26" }}>
+                Kategori Menu
+              </span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6 tracking-tight leading-tight">
-              <span className="relative inline-block px-8 py-6 bg-gradient-to-br from-green-100/80 via-emerald-50/60 to-teal-100/70 rounded-3xl shadow-xl border border-green-200/40 backdrop-blur-sm">
-                <span className="absolute inset-0 bg-gradient-to-tr from-green-200/20 via-transparent to-emerald-100/30 rounded-3xl"></span>
-                <span className="relative bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 bg-clip-text text-transparent">
+              <span
+                className="relative inline-block px-8 py-6 rounded-3xl shadow-xl backdrop-blur-sm"
+                style={{
+                  background: "linear-gradient(135deg, #f8f6f380, #f5f2ed60, #f0ebe470)",
+                  border: "1px solid #c8a28e40",
+                }}
+              >
+                <span
+                  className="absolute inset-0 rounded-3xl"
+                  style={{ background: "linear-gradient(135deg, #c8a28e20, transparent, #c8a28e30)" }}
+                ></span>
+                <span
+                  className="relative bg-gradient-to-r bg-clip-text text-transparent"
+                  style={{ backgroundImage: "linear-gradient(to right, #1b3b26, #2d5a3a, #1b3b26)" }}
+                >
                   Temukan Menu Favorit
                 </span>
               </span>
@@ -366,23 +445,32 @@ export default function SleekMenuPage(): React.JSX.Element {
             {menuCategories.map((category, index) => (
               <Card
                 key={index}
-                className="group relative text-center p-6 lg:p-8 border border-green-200/50 shadow-lg rounded-2xl bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                className="group relative text-center p-6 lg:p-8 shadow-lg rounded-2xl bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                style={{ border: "1px solid #c8a28e80" }}
               >
                 <CardContent className="space-y-6 relative z-10 p-0">
                   <div className="flex justify-center">
                     <div
-                      className={`relative p-4 bg-gradient-to-br ${category.gradient} rounded-xl text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500`}
+                      className={`relative p-4 bg-gradient-to-br ${category.gradient} rounded-xl shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500`}
                     >
                       {category.icon}
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="font-bold text-gray-900 text-xl group-hover:text-emerald-800 transition-colors duration-300">
+                    <h3 className="font-bold text-gray-900 text-xl group-hover:text-[#1b3b26] transition-colors duration-300">
                       {category.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">{category.desc}</p>
-                    <div className="inline-flex items-center gap-2 bg-green-50/80 px-4 py-2 rounded-full border border-green-200/50">
-                      <span className="text-sm font-semibold text-emerald-800">{category.count}</span>
+                    <div
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                      style={{
+                        backgroundColor: "#c8a28e20",
+                        border: "1px solid #c8a28e80",
+                      }}
+                    >
+                      <span className="text-sm font-semibold" style={{ color: "#1b3b26" }}>
+                        {category.count}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -393,19 +481,31 @@ export default function SleekMenuPage(): React.JSX.Element {
       </section>
 
       {/* Clean CTA Section */}
-      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50/60 via-emerald-50/40 to-teal-50/50">
+      <section
+        className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
+        style={{ background: "linear-gradient(135deg, #f8f6f360, #f5f2ed40, #f0ebe450)" }}
+      >
         <div className="max-w-6xl mx-auto">
-          <div className="relative bg-gradient-to-br from-emerald-700 via-teal-700 to-emerald-800 rounded-3xl shadow-2xl overflow-hidden">
+          <div
+            className="relative rounded-3xl shadow-2xl overflow-hidden"
+            style={{ background: "linear-gradient(135deg, #1b3b26, #2d5a3a, #1b3b26)" }}
+          >
             <div className="relative z-10 p-8 sm:p-12 lg:p-16">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-3 bg-white/20 px-6 py-3 rounded-full mb-6 border border-white/30">
+                <div
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-6"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                  }}
+                >
                   <Sparkles className="w-5 h-5 text-white" />
                   <span className="text-white font-semibold">Matcha Bar & Cafe Terbaik</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                   Rasakan Pengalaman
                   <br />
-                  <span className="text-yellow-300">Matcha Terbaik di Cirebon</span>
+                  <span style={{ color: "#c8a28e" }}>Matcha Terbaik di Cirebon</span>
                 </h3>
                 <p className="text-white/90 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed font-medium">
                   Kunjungi SHIBUI Cafe dan nikmati authentic Japanese matcha experience dengan suasana yang cozy dan
@@ -414,9 +514,21 @@ export default function SleekMenuPage(): React.JSX.Element {
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 {/* Visit Location Card */}
-                <div className="group relative bg-white/10 border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-500 hover:-translate-y-1">
+                <div
+                  className="group relative rounded-2xl p-8 hover:-translate-y-1 transition-all duration-500"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                  }}
+                >
                   <div className="relative z-10 text-center space-y-6">
-                    <div className="w-20 h-20 bg-white/15 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500 border border-white/20">
+                    <div
+                      className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500"
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.15)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                      }}
+                    >
                       <MapPin className="w-10 h-10 text-white" />
                     </div>
                     <div>
@@ -436,7 +548,14 @@ export default function SleekMenuPage(): React.JSX.Element {
                       </div>
                     </div>
                     <a href={LINKS.googleMaps} target="_blank" rel="noopener noreferrer" className="block">
-                      <Button className="w-full bg-white text-emerald-700 hover:bg-gray-50 px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-500 font-bold text-lg group-hover:scale-105 border border-white/20">
+                      <Button
+                        className="w-full px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-500 font-bold text-lg group-hover:scale-105"
+                        style={{
+                          backgroundColor: "white",
+                          color: "#1b3b26",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                        }}
+                      >
                         <MapPin className="w-5 h-5 mr-2" />
                         <span>Buka Google Maps</span>
                       </Button>
@@ -444,9 +563,21 @@ export default function SleekMenuPage(): React.JSX.Element {
                   </div>
                 </div>
                 {/* Order Online Card */}
-                <div className="group relative bg-white/10 border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-500 hover:-translate-y-1">
+                <div
+                  className="group relative rounded-2xl p-8 hover:-translate-y-1 transition-all duration-500"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                  }}
+                >
                   <div className="relative z-10 text-center space-y-6">
-                    <div className="w-20 h-20 bg-white/15 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500 border border-white/20">
+                    <div
+                      className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500"
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.15)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                      }}
+                    >
                       <ShoppingBag className="w-10 h-10 text-white" />
                     </div>
                     <div>
@@ -466,7 +597,12 @@ export default function SleekMenuPage(): React.JSX.Element {
                       </div>
                     </div>
                     <a href={LINKS.grabFood} target="_blank" rel="noopener noreferrer" className="block">
-                      <Button className="w-full bg-gradient-to-r from-lime-400 to-green-500 text-white hover:from-lime-500 hover:to-green-600 px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-500 font-bold text-lg group-hover:scale-105">
+                      <Button
+                        className="w-full text-white px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-500 font-bold text-lg group-hover:scale-105"
+                        style={{
+                          background: "linear-gradient(to right, #c8a28e, #b8926e)",
+                        }}
+                      >
                         <ShoppingBag className="w-5 h-5 mr-2" />
                         <span>Pesan di GrabFood</span>
                       </Button>

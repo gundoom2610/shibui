@@ -26,46 +26,42 @@ export default function Footer() {
           {/* Contact & Social Section */}
           <div className="flex flex-col items-center lg:items-start space-y-6">
             <h4 className="text-white font-semibold text-lg mb-2">Hubungi Kami</h4>
-
             {/* Social Links */}
             <div className="flex flex-col space-y-4 w-full max-w-xs">
               <a
                 href="https://wa.me/6281234567890"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-green-600 hover:bg-green-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <Phone className="w-5 h-5 text-white" />
+                <Phone className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">WhatsApp</span>
               </a>
-
               <a
                 href="https://instagram.com/shibui.cirebon"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <Instagram className="w-5 h-5 text-white" />
+                <Instagram className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">Instagram</span>
               </a>
-
               <a
                 href="https://food.grab.com/id/en/restaurant/shibui-matcha-bar-cirebon"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-lime-600 hover:bg-lime-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <ShoppingBag className="w-5 h-5 text-white" />
+                <ShoppingBag className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">Order GrabFood</span>
               </a>
-
               <a
                 href="https://maps.google.com/?q=Shibui+Matcha+Bar+Cirebon"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-blue-600 hover:bg-blue-500 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <MapPin className="w-5 h-5 text-white" />
+                <MapPin className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">Google Maps</span>
               </a>
             </div>

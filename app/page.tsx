@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Coffee, Wifi, Camera, Heart, ArrowRight, Star, MapPin, Clock, Instagram } from "lucide-react"
+import { Coffee, Wifi, Camera, Heart, ArrowRight, Star, MapPin, Clock } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
-import Script from "next/script"
 
 // Image paths constants for easy management
 const IMAGES = {
@@ -55,20 +54,6 @@ const heroMenu = [
   },
 ]
 
-// Instagram Reels Data with proper embed URLs
-const instagramReels = [
-  {
-    id: 1,
-    permalink: "https://www.instagram.com/reel/DLrLyGUSj6y/",
-    caption: "Proses pembuatan matcha latte premium kami ✨",
-  },
-  {
-    id: 2,
-    permalink: "https://www.instagram.com/reel/DLeMTs5zqYC/",
-    caption: "Tempat Matcha Terbaik di Cirebon! 🍵",
-  },
-]
-
 // Custom hook for scroll-triggered animations
 function useScrollAnimation() {
   const [visibleElements, setVisibleElements] = useState(new Set())
@@ -107,75 +92,10 @@ function useScrollAnimation() {
   return visibleElements
 }
 
-// Custom hook for Instagram embed management
-function useInstagramEmbeds() {
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false)
-  const [embedsProcessed, setEmbedsProcessed] = useState(false)
-  const retryTimeoutRef = useRef<NodeJS.Timeout>()
-
-  const processEmbeds = () => {
-    // @ts-ignore
-    if (typeof window !== "undefined" && window.instgrm) {
-      try {
-        // @ts-ignore
-        window.instgrm.Embeds.process()
-        setEmbedsProcessed(true)
-      } catch (error) {
-        console.log("Instagram embed processing failed, retrying...", error)
-        // Retry after a short delay
-        retryTimeoutRef.current = setTimeout(() => {
-          processEmbeds()
-        }, 1000)
-      }
-    }
-  }
-
-  const refreshEmbeds = () => {
-    setEmbedsProcessed(false)
-    // Clear existing embeds and reprocess
-    setTimeout(() => {
-      processEmbeds()
-    }, 100)
-  }
-
-  useEffect(() => {
-    if (isScriptLoaded) {
-      // Process embeds when script is loaded
-      processEmbeds()
-    }
-
-    return () => {
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current)
-      }
-    }
-  }, [isScriptLoaded])
-
-  // Auto-refresh embeds periodically to ensure they stay loaded
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isScriptLoaded && !embedsProcessed) {
-        processEmbeds()
-      }
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [isScriptLoaded, embedsProcessed])
-
-  return {
-    isScriptLoaded,
-    setIsScriptLoaded,
-    embedsProcessed,
-    refreshEmbeds,
-    processEmbeds,
-  }
-}
-
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const visibleElements = useScrollAnimation()
-  const { isScriptLoaded, setIsScriptLoaded, embedsProcessed, refreshEmbeds, processEmbeds } = useInstagramEmbeds()
 
   useEffect(() => {
     setIsVisible(true)
@@ -183,16 +103,6 @@ export default function HomePage() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  // Process embeds when Instagram section becomes visible
-  useEffect(() => {
-    if (visibleElements.has("instagram-reels") && isScriptLoaded) {
-      // Small delay to ensure DOM is ready
-      setTimeout(() => {
-        processEmbeds()
-      }, 500)
-    }
-  }, [visibleElements, isScriptLoaded])
 
   const signatureDrinks = [
     {
@@ -240,7 +150,7 @@ export default function HomePage() {
       icon: <Coffee className="w-6 h-6" />,
       title: "Matcha Premium",
       desc: "Kualitas terbaik langsung dari Jepang",
-      gradient: "from-green-500 to-emerald-500",
+      gradient: "from-shibui-primary to-emerald-500",
     },
   ]
 
@@ -269,26 +179,9 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Instagram Embed Script with improved loading */}
-      <Script
-        src="https://www.instagram.com/embed.js"
-        strategy="lazyOnload"
-        onLoad={() => {
-          setIsScriptLoaded(true)
-          // @ts-ignore
-          if (window.instgrm) {
-            // @ts-ignore
-            window.instgrm.Embeds.process()
-          }
-        }}
-        onError={() => {
-          console.log("Instagram script failed to load")
-        }}
-      />
-
-      <div className="bg-gradient-to-b from-green-50 via-white to-green-50 min-h-screen">
+      <div className="bg-gradient-to-b from-green-50 via-white to-green-50 min-h-screen -mt-0 pt-0">
         {/* Hero Section with Parallax */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-green-50 to-white">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-green-50 to-white mt-0 pt-0">
           {/* Hero Background Image with Parallax */}
           <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
             <div className="relative w-full h-full">
@@ -314,8 +207,8 @@ export default function HomePage() {
                 }`}
               >
                 {/* Badge */}
-                <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-green-100">
-                  <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-shibui-primary/20">
+                  <div className="w-2.5 h-2.5 bg-shibui-primary rounded-full animate-pulse"></div>
                   <span className="text-sm font-semibold text-gray-700 tracking-wide">
                     Matcha Bar & Cafe Terbaik di Cirebon
                   </span>
@@ -326,12 +219,12 @@ export default function HomePage() {
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold text-gray-900 leading-[0.9] tracking-tight">
                     Matcha, Cozy,
                     <br />
-                    <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-shibui-primary via-shibui-primary to-shibui-primary/80 bg-clip-text text-transparent">
                       Estetik
                     </span>
                   </h1>
                   <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-2xl leading-relaxed font-medium">
-                    Selamat datang di <span className="font-bold text-green-700">SHIBUI</span> — matcha bar & cafe
+                    Selamat datang di <span className="font-bold text-shibui-primary">SHIBUI</span> — matcha bar & cafe
                     bernuansa Jepang modern di tengah Cirebon.
                   </p>
                 </div>
@@ -339,11 +232,11 @@ export default function HomePage() {
                 {/* Quick Info */}
                 <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 text-base text-gray-600">
                   <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <MapPin className="w-5 h-5 text-shibui-primary flex-shrink-0" />
                     <span className="font-medium">Cirebon, Jawa Barat</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <Clock className="w-5 h-5 text-shibui-primary flex-shrink-0" />
                     <span className="font-medium">08:00 - 22:00</span>
                   </div>
                 </div>
@@ -352,7 +245,7 @@ export default function HomePage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     onClick={() => (window.location.href = "/menu")}
-                    className="group bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold transform hover:scale-105"
+                    className="group bg-gradient-to-r from-shibui-primary to-shibui-primary/90 hover:from-shibui-primary/90 hover:to-shibui-primary text-white px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold transform hover:scale-105"
                   >
                     <span>Lihat Menu</span>
                     <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
@@ -360,7 +253,7 @@ export default function HomePage() {
                   <Button
                     onClick={() => document.getElementById("cerita-shibui")?.scrollIntoView({ behavior: "smooth" })}
                     variant="outline"
-                    className="group border-2 border-gray-300 text-gray-700 hover:border-green-600 hover:text-green-600 px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold bg-white/95 backdrop-blur-sm"
+                    className="group border-2 border-gray-300 text-gray-700 hover:border-shibui-primary hover:text-shibui-primary px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold bg-white/95 backdrop-blur-sm"
                   >
                     <Heart className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform duration-300" />
                     <span>Tentang Kami</span>
@@ -372,7 +265,7 @@ export default function HomePage() {
               <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] mt-8 lg:mt-0">
                 {/* Main Image */}
                 <div className="relative h-full w-full max-w-sm sm:max-w-md mx-auto lg:max-w-none">
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-600/20 to-transparent rounded-3xl z-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-shibui-primary/20 to-transparent rounded-3xl z-10"></div>
                   <Image
                     src={IMAGES.menu.matchaLatte || "/placeholder.svg"}
                     alt="Shibui Cafe Hero"
@@ -387,7 +280,7 @@ export default function HomePage() {
                   {heroMenu.map((item, index) => (
                     <Card
                       key={index}
-                      className={`absolute bg-white/95 backdrop-blur-sm shadow-xl rounded-xl lg:rounded-2xl border border-green-100/50 transform hover:scale-105 transition-all duration-500 pointer-events-auto ${
+                      className={`absolute bg-white/95 backdrop-blur-sm shadow-xl rounded-xl lg:rounded-2xl border border-green-100/50 hover:border-shibui-secondary/30 transform hover:scale-105 transition-all duration-500 pointer-events-auto ${
                         index === 0
                           ? "top-4 sm:top-8 -left-2 sm:-left-4 lg:-left-12 w-48 sm:w-56 lg:w-64"
                           : index === 1
@@ -434,7 +327,11 @@ export default function HomePage() {
         </section>
 
         {/* Signature Drinks Section */}
-        <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white" data-animate id="signature-drinks">
+        <section
+          className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-shibui-secondary/5 to-white"
+          data-animate
+          id="signature-drinks"
+        >
           <div className="max-w-7xl mx-auto">
             {/* Section Header */}
             <div
@@ -444,7 +341,7 @@ export default function HomePage() {
             >
               <div className="inline-flex items-center gap-3 bg-green-50 px-6 py-3 rounded-full mb-6 border border-green-100">
                 <span className="text-2xl">✨</span>
-                <span className="text-green-700 font-bold text-base">Signature Collection</span>
+                <span className="text-shibui-primary font-bold text-base">Signature Collection</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-gray-900 mb-6 tracking-tight">
                 Signature Drinks
@@ -493,155 +390,184 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Our Story Section - Enhanced with Soft Green */}
+        {/* Our Story Section - Enhanced with Glassmorphism */}
         <section
           id="cerita-shibui"
-          className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-green-50"
+          className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-green-50 relative"
           data-animate
         >
-          <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
             <div
-              className={`text-center mb-16 sm:mb-20 transform transition-all duration-1000 ${
-                visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-              }`}
-            >
-              <div className="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full mb-6 shadow-lg border border-green-200">
-                <span className="text-2xl">🌱</span>
-                <span className="text-green-700 font-bold text-base">Tentang Kami</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-gray-900 mb-6 tracking-tight">
-                Cerita <span className="italic text-green-600">SHIBUI</span>
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium">
-                Kami menyediakan berbagai minuman matcha berkualitas premium, coffee specialty, snacks ringan yang
-                menggugah selera, hingga makanan berat yang mengenyangkan. Setiap sajian dibuat dengan penuh cinta dan
-                dedikasi untuk memberikan pengalaman kuliner terbaik bagi setiap tamu yang berkunjung ke SHIBUI.
-              </p>
-            </div>
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(circle at 25% 25%, #c8a28e 2px, transparent 2px), radial-gradient(circle at 75% 75%, #c8a28e 2px, transparent 2px)`,
+                backgroundSize: "50px 50px",
+              }}
+            ></div>
+          </div>
 
-            {/* Story Content Grid */}
+          {/* Glassmorphism Container */}
+          <div className="relative z-10 max-w-7xl mx-auto">
             <div
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center mb-16 sm:mb-20 transform transition-all duration-1000 delay-300 ${
-                visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-              }`}
+              className="relative backdrop-blur-xl bg-[#c8a28e]/20 border border-[#c8a28e]/30 rounded-3xl shadow-2xl p-8 sm:p-12 lg:p-16"
+              style={{
+                boxShadow: "0 25px 50px -12px rgba(200, 162, 142, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+              }}
             >
-              {/* Left - Story Text */}
-              <div className="space-y-8">
-                <div className="space-y-5">
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900">Perjalanan SHIBUI</h3>
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    Dimulai dari kecintaan terhadap budaya Jepang dan passion akan kualitas matcha terbaik, SHIBUI hadir
-                    untuk membawa pengalaman authentic Japanese cafe di tengah kota Cirebon. Setiap detail di SHIBUI
-                    dirancang untuk menciptakan suasana yang hangat dan menenangkan.
-                  </p>
-                </div>
-                <div className="space-y-5">
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900">Komitmen Kualitas</h3>
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    Kami berkomitmen menggunakan bahan-bahan premium, mulai dari pilihan matcha yang berkualitas, hingga
-                    coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep autentik dan
-                    sentuhan modern.
-                  </p>
-                </div>
-              </div>
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/10 via-transparent to-[#c8a28e]/10 pointer-events-none"></div>
 
-              {/* Right - Cafe Photo */}
-              <div className="relative">
-                <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-white border border-green-100 drop-shadow-[0_0_20px_rgba(34,197,94,0.3)] shadow-green-200/50">
-                  <Image
-                    src={IMAGES.story.cafeInterior || "/placeholder.svg"}
-                    alt="Shibui Cafe Interior Story"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-16 sm:mb-20">
-              {whyShibui.map((item, index) => (
-                <Card
-                  key={index}
-                  className={`group text-center p-8 border border-green-100 shadow-lg rounded-3xl bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden ${
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Section Header */}
+                <div
+                  className={`text-center mb-16 sm:mb-20 transform transition-all duration-1000 ${
                     visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
                   }`}
-                  style={{
-                    transitionDelay: visibleElements.has("cerita-shibui") ? `${(index + 2) * 100}ms` : "0ms",
-                  }}
                 >
-                  {/* Hover gradient background */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-                  ></div>
-                  <CardContent className="space-y-4 relative z-10">
-                    <div className="flex justify-center">
-                      <div
-                        className={`p-4 bg-gradient-to-br ${item.gradient} rounded-2xl text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
-                      >
-                        {item.icon}
-                      </div>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 text-xl group-hover:text-green-700 transition-colors duration-300">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                  <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full mb-6 shadow-lg border border-[#c8a28e]/20">
+                    <span className="text-[#1b3b26] font-bold text-base">Tentang Kami</span>
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-shibui-primary mb-6 tracking-tight drop-shadow-sm">
+                    Cerita <span className="italic font-light text-shibui-primary/80">SHIBUI</span>
+                  </h2>
+                  <p className="text-lg sm:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium">
+                    Kami menyediakan berbagai minuman matcha berkualitas premium, coffee specialty, snacks ringan yang
+                    menggugah selera, hingga makanan berat yang mengenyangkan. Setiap sajian dibuat dengan penuh cinta
+                    dan dedikasi untuk memberikan pengalaman kuliner terbaik bagi setiap tamu yang berkunjung ke SHIBUI.
+                  </p>
+                </div>
 
-            {/* Cafe Spaces Gallery */}
-            <div
-              className={`space-y-12 transform transition-all duration-1000 delay-500 ${
-                visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-              }`}
-            >
-              <div className="text-center">
-                <h3 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">Ruang yang Kami Ciptakan</h3>
-                <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto font-medium">
-                  Setiap sudut di SHIBUI memiliki cerita dan fungsinya sendiri, dirancang khusus untuk kenyamanan Anda
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                {cafeSpaces.map((space, index) => (
-                  <Card
-                    key={index}
-                    className="group overflow-hidden rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 border border-green-100 bg-white"
-                  >
-                    <CardContent className="p-0">
-                      <div className="relative aspect-[3/2] overflow-hidden">
-                        <Image
-                          src={space.image || "/placeholder.svg"}
-                          alt={space.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </div>
-                      <div className="p-6">
-                        <h4 className="font-semibold text-gray-900 text-xl mb-3">{space.title}</h4>
-                        <p className="text-gray-600 leading-relaxed">{space.description}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {/* Story Content Grid */}
+                <div
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center mb-16 sm:mb-20 transform transition-all duration-1000 delay-300 ${
+                    visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  }`}
+                >
+                  {/* Left - Story Text */}
+                  <div className="space-y-8">
+                    <div className="space-y-5">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-shibui-primary">Perjalanan SHIBUI</h3>
+                      <p className="text-gray-700 leading-relaxed text-lg">
+                        Dimulai dari kecintaan terhadap budaya Jepang dan passion akan kualitas matcha terbaik, SHIBUI
+                        hadir untuk membawa pengalaman authentic Japanese cafe di tengah kota Cirebon. Setiap detail di
+                        SHIBUI dirancang untuk menciptakan suasana yang hangat dan menenangkan.
+                      </p>
+                    </div>
+                    <div className="space-y-5">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-shibui-primary">Komitmen Kualitas</h3>
+                      <p className="text-gray-700 leading-relaxed text-lg">
+                        Kami berkomitmen menggunakan bahan-bahan premium, mulai dari pilihan matcha yang berkualitas,
+                        hingga coffee beans pilihan yang di-roast dengan sempurna. Setiap menu diciptakan dengan resep
+                        autentik dan sentuhan modern.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right - Cafe Photo */}
+                  <div className="relative">
+                    <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 drop-shadow-[0_0_20px_rgba(200,162,142,0.3)]">
+                      <Image
+                        src={IMAGES.story.cafeInterior || "/placeholder.svg"}
+                        alt="Shibui Cafe Interior Story"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Features Grid - Updated with solid white cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-16 sm:mb-20">
+                  {whyShibui.map((item, index) => (
+                    <Card
+                      key={index}
+                      className={`group text-center p-8 border border-gray-200 shadow-lg rounded-3xl bg-white hover:bg-white hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden ${
+                        visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                      }`}
+                      style={{
+                        transitionDelay: visibleElements.has("cerita-shibui") ? `${(index + 2) * 100}ms` : "0ms",
+                      }}
+                    >
+                      {/* Hover gradient background */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                      ></div>
+                      <CardContent className="space-y-4 relative z-10">
+                        <div className="flex justify-center">
+                          <div
+                            className={`p-4 bg-gradient-to-br ${item.gradient} rounded-2xl text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
+                          >
+                            {item.icon}
+                          </div>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 text-xl group-hover:text-shibui-primary transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* Cafe Spaces Gallery */}
+                <div
+                  className={`space-y-12 transform transition-all duration-1000 delay-500 ${
+                    visibleElements.has("cerita-shibui") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  }`}
+                >
+                  <div className="text-center">
+                    <h3 className="text-3xl sm:text-4xl font-bold text-shibui-primary mb-4">
+                      Ruang yang Kami Ciptakan
+                    </h3>
+                    <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto font-medium">
+                      Setiap sudut di SHIBUI memiliki cerita dan fungsinya sendiri, dirancang khusus untuk kenyamanan
+                      Anda
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    {cafeSpaces.map((space, index) => (
+                      <Card
+                        key={index}
+                        className="group overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 bg-white hover:bg-white drop-shadow-lg hover:drop-shadow-2xl transform hover:-translate-y-1"
+                      >
+                        <CardContent className="p-0">
+                          <div className="relative aspect-[3/2] overflow-hidden">
+                            <Image
+                              src={space.image || "/placeholder.svg"}
+                              alt={space.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-700"
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          </div>
+                          <div className="p-8">
+                            <h4 className="font-bold text-gray-900 text-2xl mb-4 tracking-tight leading-tight">
+                              {space.title}
+                            </h4>
+                            <p className="text-gray-700 leading-relaxed text-lg font-medium">{space.description}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Redesigned "Shibui Tempat Nyaman" Section - Reduced Animation Duration */}
+        {/* Redesigned "Shibui Tempat Nyaman" Section - Updated with New Colors */}
         <section
           className="relative px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-green-50 to-white"
           data-animate
           id="tempat-nyaman"
         >
           <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-slate-800 to-green-900 rounded-3xl overflow-hidden">
+            <div className="bg-gradient-to-br from-shibui-primary to-shibui-primary/90 rounded-3xl overflow-hidden">
               <div className="py-20 sm:py-24 lg:py-32 px-6 sm:px-8 lg:px-12">
                 <div className="max-w-7xl mx-auto relative z-10">
                   <div
@@ -652,16 +578,15 @@ export default function HomePage() {
                     {/* Mobile: Image first, Desktop: Content first */}
                     <div className="order-2 lg:order-1 space-y-6 sm:space-y-8">
                       <div className="space-y-4 sm:space-y-6">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-white leading-tight tracking-tight">
-                          Tempat yang{" "}
-                          <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent">
-                            Nyaman
-                          </span>
-                          <br />
-                          <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white/80 font-light">
-                            untuk semua
-                          </span>
-                        </h2>
+                        <div className="drop-shadow-lg">
+                          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-white leading-tight tracking-tight">
+                            Tempat yang <span className="text-green-300 drop-shadow-sm">Nyaman</span>
+                            <br />
+                            <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white/80 font-light">
+                              untuk semua
+                            </span>
+                          </h2>
+                        </div>
                         <p className="text-lg sm:text-xl text-white/70 leading-relaxed max-w-xl font-medium">
                           Setiap sudut di SHIBUI dirancang khusus untuk memberikan kenyamanan maksimal. Dari area kerja
                           yang produktif hingga sudut santai yang menenangkan jiwa.
@@ -670,7 +595,7 @@ export default function HomePage() {
 
                       {/* Feature highlights in 2x2 grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                        <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                           <CardContent className="space-y-3 p-0">
                             <div>
                               <h4 className="text-white font-semibold text-base mb-1">Menu Lengkap</h4>
@@ -680,7 +605,7 @@ export default function HomePage() {
                             </div>
                           </CardContent>
                         </Card>
-                        <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                        <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                           <CardContent className="space-y-3 p-0">
                             <div>
                               <h4 className="text-white font-semibold text-base mb-1">Reading Corner</h4>
@@ -690,7 +615,7 @@ export default function HomePage() {
                             </div>
                           </CardContent>
                         </Card>
-                        <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                        <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                           <CardContent className="space-y-3 p-0">
                             <div>
                               <h4 className="text-white font-semibold text-base mb-1">Nyaman Buat Nongkrong & Nugas</h4>
@@ -700,7 +625,7 @@ export default function HomePage() {
                             </div>
                           </CardContent>
                         </Card>
-                        <Card className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
+                        <Card className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1">
                           <CardContent className="space-y-3 p-0">
                             <div>
                               <h4 className="text-white font-semibold text-base mb-1">Fasilitas Charging Lengkap</h4>
@@ -715,7 +640,7 @@ export default function HomePage() {
 
                     {/* Mobile: Image on top, Desktop: Image on right */}
                     <div className="order-1 lg:order-2 relative mt-8 lg:mt-0">
-                      <div className="aspect-[4/3] bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 relative overflow-hidden">
+                      <div className="aspect-[4/3] bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 relative overflow-hidden ring-1 ring-white/10">
                         <Image
                           src={IMAGES.story.atmosphere || "/placeholder.svg"}
                           alt="Shibui Cafe Atmosphere"
@@ -762,7 +687,7 @@ export default function HomePage() {
                   </p>
                   <Button
                     onClick={() => (window.location.href = "/menu")}
-                    className="group bg-white text-green-600 hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105 w-full"
+                    className="group bg-white text-shibui-primary hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105 w-full"
                   >
                     <span>Lihat Menu Lengkap</span>
                     <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
@@ -784,7 +709,7 @@ export default function HomePage() {
                   </div>
                   <Button
                     onClick={() => (window.location.href = "/menu")}
-                    className="group bg-white text-green-600 hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105"
+                    className="group bg-white text-shibui-primary hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105"
                   >
                     <span>Lihat Menu Lengkap</span>
                     <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
@@ -807,168 +732,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
-          {/* Bottom spacing */}
-          <div className="h-8 sm:h-12"></div>
-        </section>
-
-        {/* Instagram Reels Section - Enhanced with Refresh Functionality */}
-        <section
-          className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-green-50"
-          data-animate
-          id="instagram-reels"
-        >
-          <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
-            <div
-              className={`text-center mb-16 sm:mb-20 transform transition-all duration-1000 ${
-                visibleElements.has("instagram-reels") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-              }`}
-            >
-              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-50 to-purple-50 px-6 py-3 rounded-full mb-6 border border-pink-200">
-                <Instagram className="w-5 h-5 text-pink-600" />
-                <span className="text-pink-700 font-bold text-base">Follow Our Journey</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-semibold text-gray-900 mb-6 tracking-tight">
-                Lihat Keseruan di{" "}
-                <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-pink-700 bg-clip-text text-transparent">
-                  SHIBUI
-                </span>
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-medium">
-                Ikuti momen-momen spesial dan behind the scenes pembuatan minuman premium kami
-              </p>
-
-              {/* Refresh Button for Instagram Embeds */}
-              <div className="mt-6">
-                <Button
-                  onClick={refreshEmbeds}
-                  variant="outline"
-                  className="group border-2 border-pink-200 text-pink-600 hover:border-pink-400 hover:text-pink-700 px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-sm font-semibold bg-white/95 backdrop-blur-sm"
-                >
-                  <Instagram className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
-                  <span>Refresh Instagram Posts</span>
-                </Button>
-              </div>
-            </div>
-
-            {/* Instagram Reels Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 max-w-6xl mx-auto">
-              {instagramReels.map((reel, index) => (
-                <div
-                  key={reel.id}
-                  className={`transform transition-all duration-700 ${
-                    visibleElements.has("instagram-reels") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-                  }`}
-                  style={{
-                    transitionDelay: visibleElements.has("instagram-reels") ? `${index * 300}ms` : "0ms",
-                  }}
-                >
-                  <div className="bg-white rounded-3xl shadow-lg p-4 hover:shadow-xl transition-shadow duration-300">
-                    <blockquote
-                      className="instagram-media"
-                      data-instgrm-permalink={reel.permalink}
-                      data-instgrm-version="14"
-                      style={{
-                        background: "#FFF",
-                        border: "0",
-                        borderRadius: "16px",
-                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                        margin: "1px",
-                        maxWidth: "540px",
-                        minWidth: "326px",
-                        padding: "0",
-                        width: "100%",
-                      }}
-                    >
-                      {/* Enhanced Fallback content while Instagram loads */}
-                      <div className="flex items-center justify-center min-h-[400px] bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl">
-                        <div className="text-center space-y-4 p-8">
-                          <div className="relative">
-                            <Instagram className="w-16 h-16 text-pink-400 mx-auto animate-pulse" />
-                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 rounded-full animate-ping"></div>
-                          </div>
-                          <div className="space-y-2">
-                            <p className="text-gray-700 font-semibold text-lg">Loading Instagram Reel...</p>
-                            <p className="text-sm text-gray-500 max-w-xs mx-auto">{reel.caption}</p>
-                          </div>
-                          {!isScriptLoaded && (
-                            <div className="text-xs text-gray-400">Waiting for Instagram script to load...</div>
-                          )}
-                          {isScriptLoaded && !embedsProcessed && (
-                            <div className="text-xs text-gray-400">Processing Instagram embeds...</div>
-                          )}
-                        </div>
-                      </div>
-                    </blockquote>
-                    <div className="mt-4 text-center">
-                      <p className="text-gray-700 font-medium">{reel.caption}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Follow CTA */}
-            <div
-              className={`text-center mt-16 transform transition-all duration-1000 delay-400 ${
-                visibleElements.has("instagram-reels") ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-              }`}
-            >
-              <Button
-                onClick={() => window.open("https://instagram.com/shibui.cirebon", "_blank")}
-                className="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold transform hover:scale-105"
-              >
-                <Instagram className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform duration-300" />
-                <span>Follow @shibui.cirebon</span>
-              </Button>
-            </div>
-
-            {/* Debug Info (remove in production) */}
-            {process.env.NODE_ENV === "development" && (
-              <div className="mt-8 text-center text-xs text-gray-400 space-y-1">
-                <div>Script Loaded: {isScriptLoaded ? "✅" : "❌"}</div>
-                <div>Embeds Processed: {embedsProcessed ? "✅" : "❌"}</div>
-                <div>Section Visible: {visibleElements.has("instagram-reels") ? "✅" : "❌"}</div>
-              </div>
-            )}
-          </div>
         </section>
       </div>
-
-      {/* Enhanced Instagram Embed Styles */}
-      <style jsx global>{`
-        .instagram-media {
-          margin: 0 auto !important;
-          border-radius: 24px !important;
-          overflow: hidden !important;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-          transition: all 0.3s ease !important;
-        }
-        
-        .instagram-media:hover {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-        }
-
-        /* Ensure Instagram embeds are responsive */
-        .instagram-media iframe {
-          border-radius: 16px !important;
-        }
-
-        /* Loading state improvements */
-        .instagram-media[data-instgrm-permalink] {
-          min-height: 400px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        /* Hide Instagram's default loading */
-        .instagram-media .instagram-media-loading {
-          display: none !important;
-        }
-      `}</style>
     </>
   )
 }
