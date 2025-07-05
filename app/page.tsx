@@ -682,7 +682,7 @@ export default function HomePage() {
                     Jelajahi koleksi lengkap minuman dan makanan premium kami yang dibuat dengan penuh cinta
                   </p>
                   <Button
-                    onClick={() => (window.location.href = "/menus")}
+                    onClick={() => (window.location.href = "/menu")}
                     className="group bg-white text-green-600 hover:bg-gray-50 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold transform hover:scale-105 w-full"
                   >
                     <span>Lihat Menu Lengkap</span>
