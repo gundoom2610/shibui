@@ -9,13 +9,13 @@ import {
   Coffee,
   Utensils,
   Cookie,
-  IceCream,
   MapPin,
   ShoppingBag,
   Star,
   Clock,
   Users,
   Sparkles,
+  CakeSlice
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import Image from "next/image"
@@ -71,7 +71,7 @@ const menuCategories: MenuCategory[] = [
     accent: "secondary",
   },
   {
-    icon: <IceCream className="w-6 h-6 text-[#1b3b26]" />,
+    icon: <CakeSlice className="w-6 h-6 text-[#1b3b26]" />,
     title: "Desserts",
     desc: "Dessert premium dan ice cream dengan cita rasa autentik",
     gradient: "from-[#c8a28e] to-[#d4b299]",

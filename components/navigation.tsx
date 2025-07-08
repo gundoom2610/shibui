@@ -124,10 +124,10 @@ export default function Navigation() {
               >
                 <SheetHeader className="text-left pb-6">
                   <div className="space-y-2">
-                    <p className="text-white/70 text-sm">Matcha Bar & Cafe</p>
+                    <p className="text-white/70 text-sm">Shibui - Matcha Bar & Cafe</p>
                     <div className="flex items-center space-x-2">
                       <div className="h-px w-8 bg-gradient-to-r from-[#c5a294] to-transparent"></div>
-                      <span className="text-xs tracking-wider text-[#c5a294] font-light">di Cirebon</span>
+                      <span className="text-xs tracking-wider text-[#c5a294] font-bold">Cirebon</span>
                     </div>
                   </div>
                 </SheetHeader>
