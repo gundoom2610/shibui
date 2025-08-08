@@ -16,7 +16,7 @@ const IMAGES = {
     feature1: "/fav-menu.JPG",
     feature2: "/menu2.JPG",
     feature3: "/menu3.JPG",
-    feature4: "/menu4.JPG",
+    feature4: "/menu4.jpg",
   },
   spaces: {
     cozyCorner: "/cozy-space.jpg",
