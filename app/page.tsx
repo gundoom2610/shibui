@@ -12,43 +12,44 @@ const IMAGES = {
     background: "/shibui-background.jpg",
   },
   menu: {
-    matchaLatte: "/example/pexels-fotios-photos-2193600.jpg",
-    hojichaCreem: "/example/pexels-foodphotography-18794176.jpg",
-    matchaCheesecake: "/example/pexels-anna-guerrero-788383-4078187.jpg",
-    greenTeaIceCream: "/example/pexels-fotios-photos-2193600.jpg",
+    ambience: "/ambience.jpg",
+    feature1: "/fav-menu.JPG",
+    feature2: "/menu2.JPG",
+    feature3: "/menu3.JPG",
+    feature4: "/menu4.JPG",
   },
   spaces: {
-    cozyCorner: "/example/pexels-edmond-dantes-4347212.jpg",
-    workStation: "/example/pexels-edmond-dantes-4347212.jpg",
-    matchaCounter: "/example/pexels-edmond-dantes-4347212.jpg",
-    socialSpace: "/example/pexels-edmond-dantes-4347212.jpg",
+    cozyCorner: "/cozy-space.jpg",
+    workStation: "/work-station.JPG",
+    matchaCounter: "/reading-space.jpg",
+    socialSpace: "/social-space.JPG",
   },
   story: {
-    cafeInterior: "/example/pexels-jerchung-2156698.jpg",
-    atmosphere: "/example/pexels-edmond-dantes-4347212.jpg",
+    cafeInterior: "/cerita-shibui.png",
+    atmosphere: "/atmosphere.png",
   },
   cta: {
-    featuredDrink: "/example/pexels-anna-guerrero-788383-4078187.jpg",
+    featuredDrink: "/fav-menu.JPG",
   },
 }
 
 // Hero Menu items - different from signature drinks
 const heroMenu = [
   {
-    name: "Matcha Latte Supreme",
-    image: IMAGES.menu.hojichaCreem,
+    name: "Strawberry Matcha Latte",
+    image: IMAGES.menu.feature1,
     rating: 4.9,
     popular: true,
   },
   {
-    name: "Hojicha Cream Delight",
-    image: IMAGES.menu.hojichaCreem,
+    name: "Matcha Burnt Cheesecake",
+    image: IMAGES.menu.feature2,
     rating: 4.8,
     popular: false,
   },
   {
-    name: "Matcha Tiramisu",
-    image: IMAGES.menu.matchaCheesecake,
+    name: "Choco Chip Cookies",
+    image: IMAGES.menu.feature3,
     rating: 4.9,
     popular: true,
   },
@@ -106,24 +107,24 @@ export default function HomePage() {
 
   const signatureDrinks = [
     {
-      name: "Matcha Latte Premium",
-      desc: "Rich matcha dengan foam art",
-      image: IMAGES.menu.hojichaCreem,
+      name: "Strawberry Matcha Latte",
+      desc: "Paduan unik matcha dan stroberi dengan foam art",
+      image: IMAGES.menu.feature1,
     },
     {
-      name: "Hojicha Cream",
-      desc: "Creamy roasted tea delight",
-      image: IMAGES.menu.hojichaCreem,
+      name: "Matcha Burnt Cheesecake",
+      desc: "Cheesecake lembut dengan sentuhan earthy dari matcha.",
+      image: IMAGES.menu.feature2,
     },
     {
-      name: "Matcha Cheesecake",
-      desc: "Soft & creamy Japanese style",
-      image: IMAGES.menu.matchaCheesecake,
+      name: "Choco Chip Cookies",
+      desc: "Klasik yang renyah di luar, lembut di dalam",
+      image: IMAGES.menu.feature3,
     },
     {
-      name: "Green Tea Ice Cream",
-      desc: "Homemade dengan matcha asli",
-      image: IMAGES.menu.greenTeaIceCream,
+      name: "Shibui Matcha Latte",
+      desc: " Paduan sempurna matcha otentik dengan rasa yang elegan dan seimbang.",
+      image: IMAGES.menu.feature4,
     },
   ]
 
@@ -166,8 +167,8 @@ export default function HomePage() {
       image: IMAGES.spaces.workStation,
     },
     {
-      title: "Matcha Counter",
-      description: "Bar premium tempat keajaiban matcha terbaik tercipta",
+      title: "Reading Corner",
+      description: "Pilihan buku menarik untuk dinikmati bersama matcha yang menenangkan.",
       image: IMAGES.spaces.matchaCounter,
     },
     {
@@ -267,7 +268,7 @@ export default function HomePage() {
                 <div className="relative h-full w-full max-w-sm sm:max-w-md mx-auto lg:max-w-none">
                   <div className="absolute inset-0 bg-gradient-to-t from-shibui-primary/20 to-transparent rounded-3xl z-10"></div>
                   <Image
-                    src={IMAGES.menu.matchaLatte || "/placeholder.svg"}
+                    src={IMAGES.menu.ambience || "/placeholder.svg"}
                     alt="Shibui Cafe Hero"
                     fill
                     className="object-cover rounded-3xl shadow-2xl"

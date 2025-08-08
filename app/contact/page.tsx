@@ -34,7 +34,7 @@ export default function ContactPage() {
       description:
         "Reservasi meja, konsultasi menu, atau tanya tentang event khusus. Tim kami siap membantu Anda 24/7.",
       action: "Chat Sekarang",
-      link: "https://wa.me/6281234567890",
+      link: "https://wa.me/6281111888119",
       gradient: "from-shibui-secondary to-shibui-secondary-light",
       hoverGradient: "hover:from-shibui-secondary-dark hover:to-shibui-secondary",
     },
@@ -44,17 +44,17 @@ export default function ContactPage() {
       subtitle: "Delivery Premium ke Rumah",
       description: "Nikmati authentic matcha SHIBUI tanpa keluar rumah. Kemasan premium, rasa tetap sempurna.",
       action: "Pesan Delivery",
-      link: "https://food.grab.com/id/en/restaurant/shibui-cafe",
+      link: "https://grab.onelink.me/2695613898?pid=inappsharing&c=6-C7JCETNWAVBZGA&is_retargeting=true&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DGRABFOOD%26sourceID%3DA4pcqCZkS4%26merchantIDs%3D6-C7JCETNWAVBZGA&af_force_deeplink=true&af_web_dp=https%3A%2F%2Fwww.grab.com%2Fdownload&fbclid=PAQ0xDSwLERJxleHRuA2FlbQIxMAABp9ZtBvmOtZDMe9JRCkKFlS932fQLl_-0-daWCrBb1yMhRyxZwadNUJOuF7y4_aem_Bo3msD18AUNiVwxEDXSHoQ",
       gradient: "from-shibui-secondary to-shibui-secondary-light",
       hoverGradient: "hover:from-shibui-secondary-dark hover:to-shibui-secondary",
     },
     {
       icon: <Instagram className="w-6 h-6" />,
       title: "Instagram",
-      subtitle: "@shibui.cirebon",
+      subtitle: "@shibuicrb",
       description: "Follow untuk update menu seasonal, behind-the-scenes, dan promo eksklusif untuk followers.",
       action: "Follow Kami",
-      link: "https://instagram.com/shibui.cirebon",
+      link: "https://www.instagram.com/shibuicrb?igsh=a213ZGxhaTN4OWFx",
       gradient: "from-shibui-secondary to-shibui-secondary-light",
       hoverGradient: "hover:from-shibui-secondary-dark hover:to-shibui-secondary",
     },
@@ -232,7 +232,7 @@ export default function ContactPage() {
                         <p className="text-slate-700 leading-relaxed">
                           Jl. Dr. Mangunkusomo No. 117
                           <br />
-                          <span className="text-shibui-primary font-medium">(Samping Laura Salon)</span>
+                          <span className="text-shibui-primary font-medium">(Laura Salon)</span>
                           <br />
                           Cirebon, Jawa Barat 45121
                         </p>
@@ -279,7 +279,7 @@ export default function ContactPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   onClick={() =>
-                    window.open("https://maps.google.com/?q=Jl.+Dr.+Mangunkusomo+No.+117+Cirebon", "_blank")
+                    window.open("https://maps.app.goo.gl/cCjFVn1hdaXoBgU89", "_blank")
                   }
                   className="group bg-gradient-to-r from-shibui-secondary to-shibui-secondary-light hover:from-shibui-secondary-dark hover:to-shibui-secondary text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold hover:brightness-110"
                 >
@@ -289,7 +289,7 @@ export default function ContactPage() {
                 <Button
                   onClick={() =>
                     window.open(
-                      "https://wa.me/6281234567890?text=Halo%20SHIBUI,%20saya%20ingin%20reservasi%20tempat",
+                      "https://wa.me/6281111888119",
                       "_blank",
                     )
                   }
@@ -311,7 +311,7 @@ export default function ContactPage() {
               <div className="aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-br from-stone-100 to-shibui-secondary/10 border border-stone-200">
                 <div className="relative w-full h-full">
                   <Image
-                    src="/placeholder.svg?height=400&width=600"
+                    src="/maps.jpg"
                     alt="SHIBUI Cafe Location - Jl. Dr. Mangunkusomo No. 117, Cirebon"
                     fill
                     className="object-cover"
@@ -372,7 +372,7 @@ export default function ContactPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
                     onClick={() =>
-                      window.open("https://maps.google.com/?q=Jl.+Dr.+Mangunkusomo+No.+117+Cirebon", "_blank")
+                      window.open("https://maps.app.goo.gl/cCjFVn1hdaXoBgU89", "_blank")
                     }
                     className="group bg-gradient-to-r from-white to-stone-50 text-shibui-primary hover:bg-gradient-to-r hover:from-shibui-secondary hover:to-shibui-secondary-light hover:text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold border-0"
                   >
@@ -382,7 +382,7 @@ export default function ContactPage() {
                   <Button
                     onClick={() =>
                       window.open(
-                        "https://wa.me/6281234567890?text=Halo%20SHIBUI,%20saya%20ingin%20bertanya%20tentang%20lokasi%20dan%20arah%20ke%20cafe",
+                        "https://wa.me/6281111888119",
                         "_blank",
                       )
                     }

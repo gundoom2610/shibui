@@ -1,37 +1,47 @@
 "use client"
 
-import { MapPin, ChevronUp, Instagram, UtensilsCrossed, MessageCircle } from "lucide-react"
+import { MapPin, ChevronUp, Instagram, UtensilsCrossed, MessageCircle, Bike } from "lucide-react"
 import { useState, useEffect } from "react"
 
 export default function ShibuiCTA() {
   const [isVisible, setIsVisible] = useState(false)
   const [showSocialOptions, setShowSocialOptions] = useState(false)
+  const [isFullyRendered, setIsFullyRendered] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true)
-    }, 3000)
+      // Add delay for full render and then apply drop shadow
+      setTimeout(() => {
+        setIsFullyRendered(true)
+      }, 300)
+    }, 1500) // Reduced from 3000ms to 1500ms for faster appearance
 
     return () => clearTimeout(timer)
   }, [])
 
   const handleMapsClick = () => {
-    const mapsUrl = "https://www.google.com/maps/search/SHIBUI+Restaurant"
+    const mapsUrl = "https://maps.app.goo.gl/WQkNxUHJEL9MGRVr6"
     window.open(mapsUrl, "_blank")
   }
 
   const handleGrabFoodClick = () => {
-    const grabFoodUrl = "https://food.grab.com/id/en/restaurant/shibui"
+    const grabFoodUrl = "https://grab.onelink.me/2695613898?pid=inappsharing&c=6-C7JCETNWAVBZGA&is_retargeting=true&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DGRABFOOD%26sourceID%3DA4pcqCZkS4%26merchantIDs%3D6-C7JCETNWAVBZGA&af_force_deeplink=true&af_web_dp=https%3A%2F%2Fwww.grab.com%2Fdownload&fbclid=PAQ0xDSwLERJxleHRuA2FlbQIxMAABp9ZtBvmOtZDMe9JRCkKFlS932fQLl_-0-daWCrBb1yMhRyxZwadNUJOuF7y4_aem_Bo3msD18AUNiVwxEDXSHoQ"
     window.open(grabFoodUrl, "_blank")
   }
 
+  const handleGojekClick = () => {
+    const gojekUrl = "https://gofood.link/a/F7WT5nb"
+    window.open(gojekUrl, "_blank")
+  }
+
   const handleInstagramClick = () => {
-    const instagramUrl = "https://instagram.com/shibui.official"
+    const instagramUrl = "https://www.instagram.com/shibuicrb?igsh=a213ZGxhaTN4OWFx"
     window.open(instagramUrl, "_blank")
   }
 
   const handleWhatsAppClick = () => {
-    const whatsappUrl = "https://wa.me/628123456789?text=Halo,%20saya%20ingin%20reservasi%20di%20SHIBUI"
+    const whatsappUrl = "https://wa.me/6281111888119"
     window.open(whatsappUrl, "_blank")
   }
 
@@ -47,7 +57,9 @@ export default function ShibuiCTA() {
           {/* Instagram - Moved to top */}
           <div 
             onClick={handleInstagramClick}
-            className="cursor-pointer bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 hover:scale-110 rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 drop-shadow-lg"
+            className={`cursor-pointer bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 hover:scale-105 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 ${
+              isFullyRendered ? 'drop-shadow-lg' : ''
+            }`}
           >
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-md sm:rounded-lg flex items-center justify-center">
@@ -63,7 +75,9 @@ export default function ShibuiCTA() {
           {/* WhatsApp */}
           <div 
             onClick={handleWhatsAppClick}
-            className="cursor-pointer bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 hover:scale-110 rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 drop-shadow-lg"
+            className={`cursor-pointer bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 hover:scale-105 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 ${
+              isFullyRendered ? 'drop-shadow-lg' : ''
+            }`}
           >
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-md sm:rounded-lg flex items-center justify-center">
@@ -76,10 +90,30 @@ export default function ShibuiCTA() {
             </div>
           </div>
 
+          {/* Gojek */}
+          <div 
+            onClick={handleGojekClick}
+            className={`cursor-pointer bg-gradient-to-r from-[#00AA13] to-[#008A10] hover:scale-105 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 ${
+              isFullyRendered ? 'drop-shadow-lg' : ''
+            }`}
+          >
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-md sm:rounded-lg flex items-center justify-center">
+                <Bike className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+              <div className="text-white">
+                <div className="font-semibold text-xs sm:text-sm drop-shadow-md">Pesan di</div>
+                <div className="text-xs sm:text-xs text-green-100 opacity-90 drop-shadow-sm">GoFood</div>
+              </div>
+            </div>
+          </div>
+
           {/* GrabFood */}
           <div 
             onClick={handleGrabFoodClick}
-            className="cursor-pointer bg-gradient-to-r from-green-700 via-green-600 to-lime-600 hover:scale-110 rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 drop-shadow-lg"
+            className={`cursor-pointer bg-gradient-to-r from-green-700 via-green-600 to-lime-600 hover:scale-105 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 p-3 sm:p-4 backdrop-blur-sm border border-white/20 transform active:scale-95 ${
+              isFullyRendered ? 'drop-shadow-lg' : ''
+            }`}
           >
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-md sm:rounded-lg flex items-center justify-center">
@@ -99,7 +133,9 @@ export default function ShibuiCTA() {
         {/* Toggle Arrow - Now inside the main button */}
         <div 
           onClick={handleMapsClick}
-          className="cursor-pointer bg-gradient-to-r from-green-800 via-green-700 to-emerald-700 hover:scale-110 rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-3 sm:p-4 backdrop-blur-sm border border-white/20 drop-shadow-lg"
+          className={`cursor-pointer bg-gradient-to-r from-green-800 via-green-700 to-emerald-700 hover:scale-105 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 p-3 sm:p-4 backdrop-blur-sm border border-white/20 ${
+            isFullyRendered ? 'drop-shadow-lg' : ''
+          }`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">

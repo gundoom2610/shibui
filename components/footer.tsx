@@ -1,4 +1,4 @@
-import { MapPin, Phone, Instagram, ShoppingBag } from "lucide-react"
+import { MapPin, Phone, Instagram, ShoppingBag, Bike } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -29,7 +29,7 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex flex-col space-y-4 w-full max-w-xs">
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6281111888119"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -38,7 +38,7 @@ export default function Footer() {
                 <span className="text-white font-medium">WhatsApp</span>
               </a>
               <a
-                href="https://instagram.com/shibui.cirebon"
+                href="https://www.instagram.com/shibuicrb?igsh=a213ZGxhaTN4OWFx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -47,7 +47,7 @@ export default function Footer() {
                 <span className="text-white font-medium">Instagram</span>
               </a>
               <a
-                href="https://food.grab.com/id/en/restaurant/shibui-matcha-bar-cirebon"
+                href="https://grab.onelink.me/2695613898?pid=inappsharing&c=6-C7JCETNWAVBZGA&is_retargeting=true&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DGRABFOOD%26sourceID%3DA4pcqCZkS4%26merchantIDs%3D6-C7JCETNWAVBZGA&af_force_deeplink=true&af_web_dp=https%3A%2F%2Fwww.grab.com%2Fdownload&fbclid=PAQ0xDSwLERJxleHRuA2FlbQIxMAABp9ZtBvmOtZDMe9JRCkKFlS932fQLl_-0-daWCrBb1yMhRyxZwadNUJOuF7y4_aem_Bo3msD18AUNiVwxEDXSHoQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -55,8 +55,17 @@ export default function Footer() {
                 <ShoppingBag className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">Order GrabFood</span>
               </a>
+                <a
+                href="https://gofood.link/a/F7WT5nb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <Bike className="w-5 h-5 text-[#c8a28e]" />
+                <span className="text-white font-medium">Order Gojek</span>
+              </a>
               <a
-                href="https://maps.google.com/?q=Shibui+Matcha+Bar+Cirebon"
+                href="https://maps.app.goo.gl/WQkNxUHJEL9MGRVr6"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 bg-[#c8a28e]/20 backdrop-blur-md border border-[#c8a28e]/30 hover:bg-[#c8a28e]/30 hover:border-[#c8a28e]/50 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -64,6 +73,7 @@ export default function Footer() {
                 <MapPin className="w-5 h-5 text-[#c8a28e]" />
                 <span className="text-white font-medium">Google Maps</span>
               </a>
+   
             </div>
           </div>
 
@@ -72,7 +82,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-lg mb-4">Lokasi Kami</h4>
             <div className="w-full max-w-sm">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.6!2d108.5!3d-6.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDInMDAuMCJTIDEwOMKwMzAnMDAuMCJF!5e0!3m2!1sen!2sid!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3962.3636541581795!2d108.5478911!3d-6.725406!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee300721dcd45%3A0x13709d648a1e1c67!2sShibui%20Matcha!5e0!3m2!1sen!2sid!4v1754669131118!5m2!1sen!2sid"
                 width="100%"
                 height="220"
                 style={{

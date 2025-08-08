@@ -32,8 +32,8 @@ const PAPER_CONFIGS: Record<PaperFormat, { aspectClass: string; ratio: string }>
 const MENU_IMAGES: string[] = ["/Menu-Shibui-1.PNG", "/Menu-Shibui-2.PNG", "/Menu-Shibui-3.JPG", "/Menu-Shibui-4.jpg"]
 
 const LINKS = {
-  googleMaps: "https://maps.google.com/?q=SHIBUI+Cafe+Cirebon",
-  grabFood: "https://food.grab.com/id/en/restaurant/shibui-cafe-cirebon",
+  googleMaps: "https://maps.app.goo.gl/cCjFVn1hdaXoBgU89",
+  grabFood: "https://grab.onelink.me/2695613898?pid=inappsharing&c=6-C7JCETNWAVBZGA&is_retargeting=true&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DGRABFOOD%26sourceID%3DA4pcqCZkS4%26merchantIDs%3D6-C7JCETNWAVBZGA&af_force_deeplink=true&af_web_dp=https%3A%2F%2Fwww.grab.com%2Fdownload&fbclid=PAQ0xDSwLERJxleHRuA2FlbQIxMAABp9ZtBvmOtZDMe9JRCkKFlS932fQLl_-0-daWCrBb1yMhRyxZwadNUJOuF7y4_aem_Bo3msD18AUNiVwxEDXSHoQ",
 } as const
 
 interface MenuCategory {
