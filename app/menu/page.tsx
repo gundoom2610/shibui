@@ -29,7 +29,18 @@ const PAPER_CONFIGS: Record<PaperFormat, { aspectClass: string; ratio: string }>
   Letter: { aspectClass: "aspect-[4/5.18]", ratio: "4:5.18" },
 }
 
-const MENU_IMAGES: string[] = ["/Menu-Shibui-1.PNG", "/Menu-Shibui-2.PNG", "/Menu-Shibui-3.JPG", "/Menu-Shibui-4.jpg"]
+const MENU_IMAGES: string[] = [
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0002.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0003.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0004.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0005.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0006.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0007.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0008.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0009.jpg",
+  "/new-menu/MENU A4 Potrait_pages-to-jpg-0010.jpg",
+];
+
 
 const LINKS = {
   googleMaps: "https://maps.app.goo.gl/cCjFVn1hdaXoBgU89",
